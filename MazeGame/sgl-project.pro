@@ -68,6 +68,7 @@ DEFINES     += SGL_GRAPHICAL_CONSOLE_NO_TOOLBAR=1
 # entries, so no worries about duplicates
 SOURCES         *=  "" \
     src/FinishLine.cpp \
+    src/LinkedNode.cpp \
     src/MazeGame.cpp \
     src/Obstacle.cpp \
     src/Path.cpp \
@@ -76,6 +77,7 @@ SOURCES         *=  "" \
     src/Wall.cpp
 HEADERS         *=  "" \
     src/FinishLine.h \
+    src/LinkedNode.h \
     src/MazeGame.h \
     src/Obstacle.h \
     src/Path.h \

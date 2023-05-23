@@ -6,11 +6,17 @@
 
 
 class Stair:public Path{
+private:
+    int goX;
+    int goY;
+    int goZ;
+    char stairType;
 public:
-    Stair();
-    string getType();
+    Stair(int x,int y,int z,char stairType);
+    char getStairType()const;
+    string getType() const;
     bool IsPassable();
-    string getColor();
+    string getColor() const;
 };
 
 #endif // STAIR_H

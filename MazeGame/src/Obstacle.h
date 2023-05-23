@@ -6,8 +6,10 @@
 
 
 class Obstacle:public Path{
+private:
+    int costStep;
 public:
-    Obstacle();
+    Obstacle(int costStep);
     string getType();
     bool IsPassable();
     string getColor();

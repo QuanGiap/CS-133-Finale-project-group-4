@@ -7,17 +7,10 @@ using namespace std;
 
 
 class Path{
-protected:
-    int x;
-    int y;
-    Path* prev;
 public:
     Path();
-    Path(Path* prev);
-    int getX();
-    int getY();
-    virtual string getType() = 0;
-    virtual string getColor() = 0;
+    virtual string getType() const = 0;
+    virtual string getColor() const = 0;
     virtual bool IsPassable();
 };
 

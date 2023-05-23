@@ -9,7 +9,8 @@ using namespace std;
 
 class MazeGame{
 private:
-    vector<vector<vector<Path>>>* mazeMap;
+    vector<vector<vector<Path*>>>* mazeMap;
+
 public:
     MazeGame(string fileName);
     bool isValidMaze();
