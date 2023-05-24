@@ -8,9 +8,9 @@
 class FinishLine:public Path{
 public:
     FinishLine();
-    string getType();
+    string getType() const;
     bool IsPassable();
-    string getColor();
+    string getColor() const;
 };
 
 #endif // FINISHLINE_H
