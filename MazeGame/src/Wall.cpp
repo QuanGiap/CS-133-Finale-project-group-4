@@ -11,7 +11,7 @@ string Wall::getColor() const{
     return DEFAULT_WALL_COLOR;
 }
 
-bool Wall::IsPassable() const{
-    return false;
+int Wall::getCostStep() const{
+    return -1;
 }
 

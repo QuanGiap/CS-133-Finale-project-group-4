@@ -10,7 +10,7 @@ public:
     Wall();
     pathType getType() const;
     string getColor() const;
-    bool IsPassable() const;
+    int getCostStep() const;
 };
 
 #endif // WALL_H

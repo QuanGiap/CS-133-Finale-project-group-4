@@ -12,8 +12,8 @@ private:
 public:
     Obstacle(int costStep);
     pathType getType() const;
-    bool IsPassable() const;
     string getColor() const;
+//  return the cost step to pass this path
     int getCostStep() const;
 };
 

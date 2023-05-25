@@ -9,14 +9,10 @@ pathType Obstacle::getType() const{
     return obstacle;
 }
 
-string getColor() const{
+string Obstacle::getColor() const{
     return DEFAULT_OBSTACLE_COLOR;
 }
 
 int Obstacle::getCostStep()const{
     return this->costStep;
-}
-
-bool Obstacle::IsPassable()const{
-    return false;
 }

@@ -11,6 +11,6 @@ string Path::getColor() const{
     return DEFAULT_PATH_COLOR;
 }
 
-bool Path::IsPassable() const{
-    return true;
+int Path::getCostStep() const{
+    return 1;
 }

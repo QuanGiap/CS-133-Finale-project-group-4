@@ -20,12 +20,14 @@ class Path{
 public:
     //constructor of path
     Path();
+    //destructor of path
+    virtual ~Path() = default;
     //return enum pathType (return path)
     virtual pathType getType() const = 0;
     //return string color for path which is use for GUI
     virtual string getColor() const = 0;
-    //return bool if user can pass this path
-    virtual bool IsPassable() const;
+    //return cost step to get this path
+    virtual int getCostStep() const;
 };
 
 #endif // PATH_H
