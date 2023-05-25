@@ -4,12 +4,12 @@
 
 #include "Path.h"
 
+const string DEFAULT_FINISH_LINE_COLOR = "orange";
 
 class FinishLine:public Path{
 public:
     FinishLine();
-    string getType() const;
-    bool IsPassable();
+    pathType getType() const;
     string getColor() const;
 };
 

@@ -5,9 +5,9 @@
 using namespace std;
 const string DEFAULT_PATH_COLOR = "white";
 
+//enum for different kind of paths
 enum pathType{
     path,
-    startPoint,
     finishPoint,
     obstacle,
     road,
@@ -15,19 +15,17 @@ enum pathType{
     wall
 };
 
+//a parent class to set up different kind of paths
 class Path{
-    int x;
-    int y;
-    int z;
-    Path* prev;
 public:
-    Path(int x,int y, int z);
-    Path(int x,int y, int z, Path* prev);
-    Path* getPrevPath();
-    void setPrevPath(Path* prev);
+    //constructor of path
+    Path();
+    //return enum pathType (return path)
     virtual pathType getType() const = 0;
+    //return string color for path which is use for GUI
     virtual string getColor() const = 0;
-    virtual bool IsPassable();
+    //return bool if user can pass this path
+    virtual bool IsPassable() const;
 };
 
 #endif // PATH_H

@@ -12,8 +12,7 @@ private:
     int toZ;
     char stairType;
 public:
-    Stair(int x,int y,int z,int toX,int toY,int toZ,char stairType);
-    Stair(int x,int y,int z,Path* prev,int toX,int toY,int toZ,char stairType);
+    Stair(int toX,int toY,int toZ,char stairType);
     char getStairType()const;
     pathType getType() const;
     string getColor() const;

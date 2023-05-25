@@ -7,11 +7,10 @@ const string DEFAULT_WALL_COLOR = "black";
 
 class Wall:public Path{
 public:
-    Wall(int x,int y, int z);
-    Wall(int x,int y, int z,Path* prev);
+    Wall();
     pathType getType() const;
     string getColor() const;
-    bool IsPassable();
+    bool IsPassable() const;
 };
 
 #endif // WALL_H

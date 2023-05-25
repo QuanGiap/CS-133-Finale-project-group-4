@@ -10,6 +10,7 @@ public:
     int x;
     int y;
     int z;
+    int waitTurn;
     LinkedNode* prev;
     LinkedNode(int x,int y, int z);
     LinkedNode(int x,int y, int z,LinkedNode* prev);
