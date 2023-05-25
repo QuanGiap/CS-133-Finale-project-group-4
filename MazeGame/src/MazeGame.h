@@ -5,17 +5,18 @@
 #include <vector>
 #include "Path.h"
 #include <iostream>
+#include <unordered_map>
+#include "LinkedNode.h"
 using namespace std;
 
 class MazeGame{
 private:
     vector<vector<vector<Path*>>>* mazeMap;
-
+    unordered_map<int,vector<LinkedNode>> mapLinked;
 public:
     MazeGame(string fileName);
     bool isValidMaze();
     void startGame();
-    bool guessStep(int step);
     void showPath();
 };
 

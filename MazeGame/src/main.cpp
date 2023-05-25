@@ -3,7 +3,6 @@
 #include <iostream>
 #include <queue>
 #include <fstream>
-#include <QApplication>
 
 #include "console.h"
 using namespace std;
