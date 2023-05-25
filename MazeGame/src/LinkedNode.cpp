@@ -35,5 +35,5 @@ bool LinkedNode::isWait(){
     if(this->waitTurn > 0){
         this->waitTurn--;
     }
-    return this->waitTurn == 0;
+    return this->waitTurn != 0;
 }
