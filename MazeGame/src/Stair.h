@@ -3,20 +3,23 @@
 #define STAIR_H
 
 #include "Path.h"
-
+const string DEFAULT_STAIR_COLOR = "white";
 
 class Stair:public Path{
 private:
-    int goX;
-    int goY;
-    int goZ;
+    int toX;
+    int toY;
+    int toZ;
     char stairType;
 public:
-    Stair(int x,int y,int z,char stairType);
+    Stair(int x,int y,int z,int toX,int toY,int toZ,char stairType);
+    Stair(int x,int y,int z,Path* prev,int toX,int toY,int toZ,char stairType);
     char getStairType()const;
-    string getType() const;
-    bool IsPassable();
+    pathType getType() const;
     string getColor() const;
+    int getToX() const;
+    int getToY() const;
+    int getToZ() const;
 };
 
 #endif // STAIR_H

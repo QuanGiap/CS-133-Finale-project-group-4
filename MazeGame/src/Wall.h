@@ -3,14 +3,15 @@
 #define WALL_H
 
 #include "Path.h"
-
+const string DEFAULT_WALL_COLOR = "black";
 
 class Wall:public Path{
 public:
-    Wall();
-    string getType();
+    Wall(int x,int y, int z);
+    Wall(int x,int y, int z,Path* prev);
+    pathType getType() const;
+    string getColor() const;
     bool IsPassable();
-    string getColor();
 };
 
 #endif // WALL_H
