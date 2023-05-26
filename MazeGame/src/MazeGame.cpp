@@ -28,7 +28,7 @@ MazeGame::MazeGame(string fileName){
 }
 
 int MazeGame::checkPath(int x,int y,int z,LinkedNode* prev){
-    //check if position check is out of bound
+    //check if position check is out of bound or the program already used this path
     if(z<0||z>=mazeMap.size()||x<0||x>=mazeMap[z].size()||y<0||y>=mazeMap[z][x].size()||recordMap[z][x][y]!=nullptr){
         return -1;
     }
