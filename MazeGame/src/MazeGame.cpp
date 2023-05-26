@@ -68,18 +68,18 @@ int MazeGame::findShortPath(int x,int y, int z){
             int z = curPos[0];
             int x = curPos[1];
             int y = curPos[2];
-            Path* curPath = mazeMap[z][x][y];
             LinkedNode* curNode = recordMap[z][x][y];
-            const pathType curPathT = curPath->getType();
-            if(curNode->isWait()){
-                this->qPos.push({z,x,y});
-            }
-            else{
-
-            }
+            this->checkPath(x+1,y,z,curNode);
+            this->checkPath(x-1,y,z,curNode);
+            this->checkPath(x,y+1,z,curNode);
+            this->checkPath(x,y-1,z,curNode);            
         }
         current_step++;
     }
+    if(this->finishNode==nullptr){
+        return -1;
+    }
+    // check shortest part for finish Node
     return current_step;
 }
 
