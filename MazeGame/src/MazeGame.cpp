@@ -15,7 +15,7 @@ MazeGame::~MazeGame(){
         for(int j = 0; j < recordMap[i].size();j++){
             for(int k = 0; k < recordMap[i][j].size();k++){
                 if(recordMap[i][j][k] !=nullptr){
-                    delete mazeMap[i][j][k];
+                    delete recordMap[i][j][k];
                 }
             }
         }
@@ -52,14 +52,13 @@ int MazeGame::checkPath(int x,int y,int z,LinkedNode* prev){
     }
     return costStep;
 }
-int MazeGame::findShortPath(int x,int y, int z){
+int MazeGame::findShortPath(int startX,int startY, int startZ){
     int current_step = 0;
-    const int step_check = this->checkPath(x,y,z,nullptr);
+    const int step_check = this->checkPath(startX,startY,startZ,nullptr);
     if(step_check == -1) throw string("Start position invalid");
     LinkedNode* startNode = new LinkedNode(x,y,z,step_check);
-    this->recordMap[z][x][y] = startNode;
-    vector<int> startPos = {z,x,y};
-    this->qPos.push(startPos);
+    this->recordMap[startZ][startX][startY] = startNode;
+    this->qPos.push({startZ,startX,startY});
     while(!qPos.empty()&&this->finishNode!=nullptr){
         int size = qPos.size();
         for(int i = 0; i < size;i++){
@@ -69,10 +68,14 @@ int MazeGame::findShortPath(int x,int y, int z){
             int x = curPos[1];
             int y = curPos[2];
             LinkedNode* curNode = recordMap[z][x][y];
-            this->checkPath(x+1,y,z,curNode);
-            this->checkPath(x-1,y,z,curNode);
-            this->checkPath(x,y+1,z,curNode);
-            this->checkPath(x,y-1,z,curNode);            
+            if(curNode->isWait()){
+                this->qPos.push({z,x,y});
+            }else{
+                this->checkPath(x+1,y,z,curNode);
+                this->checkPath(x-1,y,z,curNode);
+                this->checkPath(x,y+1,z,curNode);
+                this->checkPath(x,y-1,z,curNode);
+            }     
         }
         current_step++;
     }
