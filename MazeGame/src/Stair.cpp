@@ -1,14 +1,17 @@
 
 #include "Stair.h"
 
-Stair::Stair(int toX,int toY,int toZ,char stairType){
-    this->toX = toX;
-    this->toY = toY;
-    this->toZ = toZ;
-    this->stairType = stairType;
+Stair::Stair(int x,int y,int z){
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->next = nullptr;
 }
-char Stair::getStairType()const{
-    return this->stairType;
+Stair::Stair(int x,int y,int z,Stair* next){
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->next = next;
 }
 pathType Stair::getType() const{
     return stair;
@@ -16,12 +19,21 @@ pathType Stair::getType() const{
 string Stair::getColor() const{
     return DEFAULT_STAIR_COLOR;
 }
-int Stair::getToX() const{
-    return this->toX;
+int Stair::getNextX() const{
+    return this->next->x;
 }
-int Stair::getToY() const{
-    return this->toY;
+int Stair::getNextY() const{
+    return this->next->y;
 }
-int Stair::getToZ() const{
-    return this->toZ;
+int Stair::getNextZ() const{
+    return this->next->z;
+}
+int Stair::getX() const{
+    return this->x;
+}
+int Stair::getY() const{
+    return this->y;
+}
+int Stair::getZ() const{
+    return this->z;
 }

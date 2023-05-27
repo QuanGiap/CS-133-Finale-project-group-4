@@ -1,6 +1,127 @@
 
 #include "MazeGame.h"
 
+//return the step cost when go to the given position
+//return -1 if unable to go to the given position
+int MazeGame::checkPath(int z,int x,int y,GraphNode* prev){
+    //check if position check is out of bound or the program already used this path
+    if(isOutOfBound(z,x,y)||(prev==nullptr && recordMap.count({z,x,y}))){
+        return -1;
+    }
+    int costStep = mazeMap[z][x][y]->getCostStep();
+    //if program is finding short path
+    if(costStep != -1 && prev != nullptr){
+        recordMap.insert({z,x,y});
+        GraphNode* newNode = new GraphNode(x,y,z,costStep);
+        prev->addNode(newNode);
+        this->qGraph.push(newNode);
+        Path* curPath = mazeMap[z][x][y];
+        const pathType curPathT = curPath->getType();
+        //if path is stair, add new node in new level maze
+        if(curPathT == stair){
+            int toZ = ((Stair*)curPath)->getNextZ();
+            int toX = ((Stair*)curPath)->getNextX();
+            int toY = ((Stair*)curPath)->getNextY();
+            GraphNode* newLevelNode = new GraphNode(toX,toY,toZ,1);
+            prev->addNode(newLevelNode);
+            this->qGraph.push(newLevelNode);
+        }else if(curPathT==finishPoint){
+            this->foundfinishNode= true;
+            newNode->isFinishNode = true;
+        }
+    }
+    return costStep;
+}
+
+//return the smallest step required to get to the finish line
+//return -1 if impossible to get to the finish line
+int MazeGame::findShortPath(int startZ,int startX,int startY){
+    int current_step = 0;
+    //check if the start position is valid
+    const int step_check = this->checkPath(startZ,startX,startY,nullptr);
+    if(step_check == -1){
+        return -1;
+    }
+    //setting up breadth first search
+    startNode = new GraphNode(startX,startY,startZ,step_check);
+    this->qGraph.push(startNode);
+    while(!qGraph.empty()&&!foundfinishNode){
+        int size = qGraph.size();
+        for(int i = 0; i < size;i++){
+            GraphNode* curNode = qGraph.front();
+            qGraph.pop();
+            int z = curNode->z;
+            int x = curNode->x;
+            int y = curNode->y;
+            if(curNode->isWait()){
+                this->qGraph.push(curNode);
+            }else{
+                this->checkPath(z,x+1,y,curNode);
+                this->checkPath(z,x-1,y,curNode);
+                this->checkPath(z,x,y+1,curNode);
+                this->checkPath(z,x,y-1,curNode);
+            }
+        }
+        current_step++;
+    }
+    //save the short path in map and delete node
+    this->isShortPath(startNode);
+
+    if(!this->foundfinishNode){
+        return -1;
+    }
+
+    return current_step;
+}
+
+//Use deep first search to see if the path given is the shortest path
+//delete node after finish checking
+bool MazeGame::isShortPath(GraphNode* node){
+    bool foundPath = false;
+    if(node != nullptr) {
+        if(node->isFinishNode){
+            savePath(node);
+            foundPath = true;
+        }
+
+        while(!node->empty()){
+            if(isShortPath(node->getLastNode())){
+                savePath(node);
+                foundPath = true;
+            }
+            node->removeLastNode();
+        }
+        delete node;
+    }
+    return foundPath;
+}
+
+//check if the given position is out of bound
+bool MazeGame::isOutOfBound(int z,int x,int y){
+    return (z<0||z>=mazeMap.size()||x<0||x>=mazeMap[z].size()||y<0||y>=mazeMap[z][x].size());
+}
+
+ //update the UI maze
+void MazeGame::updateUI(){
+
+}
+
+//save the path position to map
+void MazeGame::savePath(GraphNode* node){
+    int x = node->x;
+    int y = node->y;
+    int z = node->z;
+    this->shortPathPos[z].push_back({x,y});
+}
+
+
+//create a maze base on given txt file.
+MazeGame::MazeGame(string fileName){
+    this->isShowPath = false;
+    this->foundfinishNode = false;
+    //write code here
+}
+
 MazeGame::~MazeGame(){
     //delete every path
     for(int i = 0; i < mazeMap.size();i++){
@@ -10,79 +131,18 @@ MazeGame::~MazeGame(){
             }
         }
     }
-    //delete LinkedNode
-    for(int i = 0; i < recordMap.size();i++){
-        for(int j = 0; j < recordMap[i].size();j++){
-            for(int k = 0; k < recordMap[i][j].size();k++){
-                if(recordMap[i][j][k] !=nullptr){
-                    delete recordMap[i][j][k];
-                }
-            }
-        }
-    }
-}
-MazeGame::MazeGame(string fileName){
-    this->isShowPath = false;
-    this->finishNode =nullptr;
-    //write code here
+    //delete GraphNode
+    isShortPath(startNode);
 }
 
-int MazeGame::checkPath(int x,int y,int z,LinkedNode* prev){
-    //check if position check is out of bound or the program already used this path
-    if(z<0||z>=mazeMap.size()||x<0||x>=mazeMap[z].size()||y<0||y>=mazeMap[z][x].size()||recordMap[z][x][y]!=nullptr){
-        return -1;
-    }
-    int costStep = mazeMap[z][x][y]->getCostStep();
-    if(costStep != -1 && prev != nullptr){
-        LinkedNode* node = new LinkedNode(x,y,z,costStep,prev);
-        this->recordMap[z][x][y] = node;
-        this->qPos.push({z,x,y});
-        Path* curPath = mazeMap[z][x][y];
-        const pathType curPathT = curPath->getType();
-        if(curPathT == stair){
-            int toZ = ((Stair*)curPath)->getToZ();
-            int toX = ((Stair*)curPath)->getToX();
-            int toY = ((Stair*)curPath)->getToY();
-            LinkedNode* newLevelNode = new LinkedNode(toX,toY,toZ,costStep,node);
-            this->recordMap[toZ][toX][toY] = newLevelNode;
-            this->qPos.push({toZ,toX,toY});
-        }else if(curPathT==finishPoint){
-            this->finishNode = node;
-        }
-    }
-    return costStep;
+//function will calculate the minimum step first
+//before allow user to play the game
+void MazeGame::startGame(int x,int y,int z){
+
 }
-int MazeGame::findShortPath(int startX,int startY, int startZ){
-    int current_step = 0;
-    const int step_check = this->checkPath(startX,startY,startZ,nullptr);
-    if(step_check == -1) throw string("Start position invalid");
-    LinkedNode* startNode = new LinkedNode(x,y,z,step_check);
-    this->recordMap[startZ][startX][startY] = startNode;
-    this->qPos.push({startZ,startX,startY});
-    while(!qPos.empty()&&this->finishNode!=nullptr){
-        int size = qPos.size();
-        for(int i = 0; i < size;i++){
-            vector<int> curPos = qPos.front();
-            qPos.pop();
-            int z = curPos[0];
-            int x = curPos[1];
-            int y = curPos[2];
-            LinkedNode* curNode = recordMap[z][x][y];
-            if(curNode->isWait()){
-                this->qPos.push({z,x,y});
-            }else{
-                this->checkPath(x+1,y,z,curNode);
-                this->checkPath(x-1,y,z,curNode);
-                this->checkPath(x,y+1,z,curNode);
-                this->checkPath(x,y-1,z,curNode);
-            }     
-        }
-        current_step++;
-    }
-    if(this->finishNode==nullptr){
-        return -1;
-    }
-    // check shortest part for finish Node
-    return current_step;
+
+//
+void MazeGame::showPath(){
+
 }
 
