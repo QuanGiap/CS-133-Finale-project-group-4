@@ -6,7 +6,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <queue>
-#include "LinkedNode.h"
+#include <set>
+//#include "LinkedNode.h"
 #include "GraphNode.h"
 #include "Path.h"
 #include "Stair.h"
@@ -14,7 +15,6 @@
 #include "Wall.h"
 #include "Obstacle.h"
 #include "FinishLine.h"
-#include <set>
 using namespace std;
 
 class MazeGame{
@@ -36,6 +36,7 @@ private:
     unordered_map<int,vector<vector<int>>> shortPathPos;
 
     //return the step cost when go to the given position
+    //if GraphNode is nullptr mean program not finding that short path
     //return -1 if unable to go to the given position
     int checkPath(int z,int x,int y,GraphNode* prev);
 

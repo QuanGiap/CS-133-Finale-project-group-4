@@ -2,6 +2,7 @@
 #include "MazeGame.h"
 
 //return the step cost when go to the given position
+//if GraphNode is nullptr mean program not finding that short path
 //return -1 if unable to go to the given position
 int MazeGame::checkPath(int z,int x,int y,GraphNode* prev){
     //check if position check is out of bound or the program already used this path
@@ -22,9 +23,7 @@ int MazeGame::checkPath(int z,int x,int y,GraphNode* prev){
             int toZ = ((Stair*)curPath)->getNextZ();
             int toX = ((Stair*)curPath)->getNextX();
             int toY = ((Stair*)curPath)->getNextY();
-            GraphNode* newLevelNode = new GraphNode(toX,toY,toZ,1);
-            prev->addNode(newLevelNode);
-            this->qGraph.push(newLevelNode);
+            this->checkPath(toZ,toX,toY,newNode);
         }else if(curPathT==finishPoint){
             this->foundfinishNode= true;
             newNode->isFinishNode = true;
@@ -138,11 +137,11 @@ MazeGame::~MazeGame(){
 //function will calculate the minimum step first
 //before allow user to play the game
 void MazeGame::startGame(int x,int y,int z){
-
+    //write code here
 }
 
 //
 void MazeGame::showPath(){
-
+    //write code here
 }
 
