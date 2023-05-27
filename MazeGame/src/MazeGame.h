@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <queue>
 #include <set>
+#include <fstream>
 //#include "LinkedNode.h"
 #include "GraphNode.h"
 #include "Path.h"
@@ -19,10 +20,20 @@ using namespace std;
 
 class MazeGame{
 private:
+    const char WALL_SYMBOL = '-';
+    const char ROAD_SYMBOL = '*';
+    const char FINISH_SYMBOL = '$';
+    int startX;
+    int startY;
+    int startZ;
+    int length;
+    int width;
+    int height;
+    unordered_map<char,Stair*> stairMap;
     GraphNode* startNode;
     bool foundfinishNode;
     bool isShowPath;
-
+    
     //queue is used for breadth first search
     queue<GraphNode*> qGraph;
 
@@ -56,15 +67,25 @@ private:
 
     //save the path position to map
     void savePath(GraphNode* node);
+
+    //read text file
+    void readFile(ifstream& input);
+
+    void createEmptyMaze();
+
+    //get path from character
+    Path* getPath(char c);
 public:
     //create a maze base on given txt file.
-    MazeGame(string fileName);
+    MazeGame(ifstream& input);
     //destructor of MazeGame
     ~MazeGame();
     //function will calculate the minimum step first before allow user to play the game
     void startGame(int z,int x,int y);
 
     void showPath();
+
+    int mazeSize;
 };
 
 #endif // MAZEGAME_H

@@ -12,8 +12,8 @@ private:
     int z;
     Stair* next;
 public:
-    Stair(int toX,int toY,int toZ);
-    Stair(int toX,int toY,int toZ,Stair* next);
+    Stair(int X,int Y,int Z);
+    Stair(int X,int Y,int Z,Stair* next);
     pathType getType() const;
     string getColor() const;
     int getNextX() const;

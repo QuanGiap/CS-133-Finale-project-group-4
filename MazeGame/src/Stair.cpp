@@ -1,13 +1,13 @@
 
 #include "Stair.h"
 
-Stair::Stair(int x,int y,int z){
+Stair::Stair(int X,int Y,int Z){
     this->x = x;
     this->y = y;
     this->z = z;
     this->next = nullptr;
 }
-Stair::Stair(int x,int y,int z,Stair* next){
+Stair::Stair(int X,int Y,int Z,Stair* next){
     this->x = x;
     this->y = y;
     this->z = z;

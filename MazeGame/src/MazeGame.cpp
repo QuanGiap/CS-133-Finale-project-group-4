@@ -1,5 +1,10 @@
 
 #include "MazeGame.h"
+#include <iostream>
+#include<string>
+#include <cctype>
+
+using namespace std;
 
 //return the step cost when go to the given position
 //if GraphNode is nullptr mean program not finding that short path
@@ -113,13 +118,82 @@ void MazeGame::savePath(GraphNode* node){
     this->shortPathPos[z].push_back({x,y});
 }
 
+void MazeGame::readFile(ifstream& input){
+    string str;
+    int heightZ = 0;
+    getline(input,str);
+    this->startZ = stoi(str);
+    getline(input,str);
+    this->startX = stoi(str);
+    getline(input,str); 
+    this->startY = stoi(str);
+    while(getline(input,str)){
+        char c;
+        int lengthX = stoi(str);
+        getline(input,str);
+        int widthY = stoi(str);
+        for(int i = 0;i < lengthX;i++){
+            for(int j = 0;j < widthY;j++){
+                input>>noskipws>>c;
+                
+            }
+        }
+        heightZ++;
+    }
+    
+}
 
+void MazeGame::createEmptyMaze(vector<vector<vector<Path*>>> maze) {
+    vector<vector<vector<Path*>>> newMaze;
+    
+    for(int z = 0; z < height; z++) {
+        vector<vector<Path*>> maze2D;
+        for(int x = 0; x < length; x++) {
+            vector<Path*> row;
+            for(int y = 0; y < width; y++) {
+                row.push_back(new Path());
+            }
+            maze2D.push_back(row);
+        }
+        newMaze.push_back(maze2D);
+    }
+
+    mazeMap = newMaze;
+}
+
+Path* MazeGame::getPath(char c){
+    Path* newPath = nullptr;
+    switch (c)    {
+    case WALL_SYMBOL:
+        newPath = new Wall();
+        break;
+    case ROAD_SYMBOL:
+        newPath = new Road();
+        break;
+    case FINISH_SYMBOL:
+        newPath = new FinishLine();
+        break;
+    default:
+        if(isalpha(c)){
+            if(this->stairMap.count(toupper(c))){
+            throw ("Duplicate stair error");
+            }else{
+            this->stairMap[toupper(c)] = new Path();
+            }
+        }
+        break;
+    }
+    return newPath;
+}
 //create a maze base on given txt file.
-MazeGame::MazeGame(string fileName){
+MazeGame::MazeGame(ifstream& input){
     this->isShowPath = false;
     this->foundfinishNode = false;
+    this->readFile(input);
     //write code here
 }
+
+int 
 
 MazeGame::~MazeGame(){
     //delete every path
