@@ -37,3 +37,7 @@ int Stair::getY() const{
 int Stair::getZ() const{
     return this->z;
 }
+
+void Stair::setNextStair(Stair* stair){
+    this->next = stair;
+}

@@ -62,7 +62,7 @@ public:
     //destructor of MazeGame
     ~MazeGame();
     //function will calculate the minimum step first before allow user to play the game
-    void startGame(int x,int y,int z);
+    void startGame(int z,int x,int y);
 
     void showPath();
 };

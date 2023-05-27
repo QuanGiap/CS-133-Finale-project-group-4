@@ -136,7 +136,7 @@ MazeGame::~MazeGame(){
 
 //function will calculate the minimum step first
 //before allow user to play the game
-void MazeGame::startGame(int x,int y,int z){
+void MazeGame::startGame(int z,int x,int y){
     //write code here
 }
 
