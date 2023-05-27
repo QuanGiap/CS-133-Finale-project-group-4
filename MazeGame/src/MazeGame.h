@@ -71,7 +71,7 @@ private:
     //read text file
     void readFile(ifstream& input);
 
-    void createEmptyMaze();
+    void createEmptyMaze(vector<vector<vector<Path*>>> maze);
 
     //get path from character
     Path* getPath(char c);
@@ -84,6 +84,10 @@ public:
     void startGame(int z,int x,int y);
 
     void showPath();
+
+    int getLength();
+    
+    int getWidth();
 
     int mazeSize;
 };

@@ -145,13 +145,13 @@ void MazeGame::readFile(ifstream& input){
 
 void MazeGame::createEmptyMaze(vector<vector<vector<Path*>>> maze) {
     vector<vector<vector<Path*>>> newMaze;
-    
+
     for(int z = 0; z < height; z++) {
         vector<vector<Path*>> maze2D;
         for(int x = 0; x < length; x++) {
             vector<Path*> row;
             for(int y = 0; y < width; y++) {
-                row.push_back(new Path());
+                row.push_back(new Road());
             }
             maze2D.push_back(row);
         }
