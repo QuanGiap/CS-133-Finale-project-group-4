@@ -2,13 +2,10 @@
 #ifndef MAZEGAME_H
 #define MAZEGAME_H
 
-#include <vector>
 #include <iostream>
 #include <unordered_map>
 #include <queue>
 #include <set>
-#include <fstream>
-//#include "LinkedNode.h"
 #include "GraphNode.h"
 #include "Path.h"
 #include "Stair.h"
@@ -16,13 +13,14 @@
 #include "Wall.h"
 #include "Obstacle.h"
 #include "FinishLine.h"
+#include <fstream>
 using namespace std;
 
 class MazeGame{
 private:
-    const char WALL_SYMBOL = '-';
-    const char ROAD_SYMBOL = '*';
-    const char FINISH_SYMBOL = '$';
+    static constexpr char WALL_SYMBOL = '-';
+    static constexpr char ROAD_SYMBOL = '*';
+    static constexpr char FINISH_SYMBOL = '$';
     int startX;
     int startY;
     int startZ;
@@ -37,7 +35,7 @@ private:
     //queue is used for breadth first search
     queue<GraphNode*> qGraph;
 
-    //a 3D vector maze (height z, length x, width y)
+    //a 3D vector maze (height z, width y, length x)
     vector<vector<vector<Path*>>> mazeMap;
 
     //a set can contain position (height z, length x, width y) is used to record which path program has made
@@ -73,8 +71,8 @@ private:
 
     void createEmptyMaze(vector<vector<vector<Path*>>> maze);
 
-    //get path from character
-    Path* getPath(char c);
+    //get path from character, and given position
+    Path* getPath(char c,int z,int x,int y);
 public:
     //create a maze base on given txt file.
     MazeGame(ifstream& input);

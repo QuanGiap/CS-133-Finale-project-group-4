@@ -1,9 +1,4 @@
-
 #include "MazeGame.h"
-#include <iostream>
-#include<string>
-#include <cctype>
-
 using namespace std;
 
 //return the step cost when go to the given position
@@ -11,17 +6,18 @@ using namespace std;
 //return -1 if unable to go to the given position
 int MazeGame::checkPath(int z,int x,int y,GraphNode* prev){
     //check if position check is out of bound or the program already used this path
-    if(isOutOfBound(z,x,y)||(prev==nullptr && recordMap.count({z,x,y}))){
+    if(isOutOfBound(z,x,y)||(prev!=nullptr && recordMap.count({z,x,y}))){
         return -1;
     }
-    int costStep = mazeMap[z][x][y]->getCostStep();
+//    cout<<x<<" "<<y<<endl;
+    int costStep = mazeMap[z][y][x]->getCostStep();
     //if program is finding short path
     if(costStep != -1 && prev != nullptr){
         recordMap.insert({z,x,y});
         GraphNode* newNode = new GraphNode(x,y,z,costStep);
         prev->addNode(newNode);
         this->qGraph.push(newNode);
-        Path* curPath = mazeMap[z][x][y];
+        Path* curPath = mazeMap[z][y][x];
         const pathType curPathT = curPath->getType();
         //if path is stair, add new node in new level maze
         if(curPathT == stair){
@@ -39,21 +35,22 @@ int MazeGame::checkPath(int z,int x,int y,GraphNode* prev){
 
 //return the smallest step required to get to the finish line
 //return -1 if impossible to get to the finish line
-int MazeGame::findShortPath(int startZ,int startX,int startY){
+int MazeGame::findShortPath(int sZ,int sX,int sY){
     int current_step = 0;
     //check if the start position is valid
-    const int step_check = this->checkPath(startZ,startX,startY,nullptr);
+    const int step_check = this->checkPath(sZ,sX,sY,nullptr);
     if(step_check == -1){
         return -1;
     }
     //setting up breadth first search
-    startNode = new GraphNode(startX,startY,startZ,step_check);
+    startNode = new GraphNode(sX,sY,sZ,step_check);
     this->qGraph.push(startNode);
-    while(!qGraph.empty()&&!foundfinishNode){
-        int size = qGraph.size();
+    this->recordMap.insert({sZ,sX,sY});
+    while(!this->qGraph.empty()&&!this->foundfinishNode){
+        int size = this->qGraph.size();
         for(int i = 0; i < size;i++){
-            GraphNode* curNode = qGraph.front();
-            qGraph.pop();
+            GraphNode* curNode = this->qGraph.front();
+            this->qGraph.pop();
             int z = curNode->z;
             int x = curNode->x;
             int y = curNode->y;
@@ -102,7 +99,7 @@ bool MazeGame::isShortPath(GraphNode* node){
 
 //check if the given position is out of bound
 bool MazeGame::isOutOfBound(int z,int x,int y){
-    return (z<0||z>=mazeMap.size()||x<0||x>=mazeMap[z].size()||y<0||y>=mazeMap[z][x].size());
+    return (z<0||z>=mazeMap.size()||y<0||y>=mazeMap[z].size()||x<0||x>=mazeMap[z][y].size());
 }
 
  //update the UI maze
@@ -115,6 +112,7 @@ void MazeGame::savePath(GraphNode* node){
     int x = node->x;
     int y = node->y;
     int z = node->z;
+    cout<<z<<" "<<x<<" "<<y<<endl;
     this->shortPathPos[z].push_back({x,y});
 }
 
@@ -127,20 +125,27 @@ void MazeGame::readFile(ifstream& input){
     this->startX = stoi(str);
     getline(input,str); 
     this->startY = stoi(str);
+    cout<<"Z is "<<startZ<<" X is "<<startX<<" Y is "<<startY<<endl;
     while(getline(input,str)){
         char c;
         int lengthX = stoi(str);
         getline(input,str);
         int widthY = stoi(str);
-        for(int i = 0;i < lengthX;i++){
-            for(int j = 0;j < widthY;j++){
+        vector<vector<Path*>> lineY;
+        for(int i = 0;i < widthY;i++){
+            vector<Path*> lineX;
+            for(int j = 0;j < lengthX;j++){
                 input>>noskipws>>c;
-                
+                Path* newPath = this->getPath(c,heightZ,j,i);
+                lineX.push_back(newPath);
             }
+            input>>noskipws>>c;
+            lineY.push_back(lineX);
         }
+        this->mazeMap.push_back(lineY);
         heightZ++;
     }
-    
+//    cout<<mazeMap.size()<<" "<<mazeMap[0].size()<<" "<<mazeMap[0][0].size();
 }
 
 void MazeGame::createEmptyMaze(vector<vector<vector<Path*>>> maze) {
@@ -161,7 +166,7 @@ void MazeGame::createEmptyMaze(vector<vector<vector<Path*>>> maze) {
     mazeMap = newMaze;
 }
 
-Path* MazeGame::getPath(char c){
+Path* MazeGame::getPath(char c,int z,int x,int y){
     Path* newPath = nullptr;
     switch (c)    {
     case WALL_SYMBOL:
@@ -174,12 +179,19 @@ Path* MazeGame::getPath(char c){
         newPath = new FinishLine();
         break;
     default:
-        if(isalpha(c)){
+        if(isalpha(toupper(c))){
             if(this->stairMap.count(toupper(c))){
-            throw ("Duplicate stair error");
+                throw string("Duplicate stair exist");
             }else{
-            this->stairMap[toupper(c)] = new Path();
+                newPath = new Stair(x,y,z);
+                this->stairMap[c] = (Stair*) newPath;
             }
+        }else if(isdigit(c)){
+            newPath = new Obstacle(c-'0');
+        }
+        else{
+            cout<<"Invalid symbol is "<<c<<endl;
+            throw string("Invalid symbol");
         }
         break;
     }
@@ -190,12 +202,15 @@ MazeGame::MazeGame(ifstream& input){
     this->isShowPath = false;
     this->foundfinishNode = false;
     this->readFile(input);
+    int small = this->findShortPath(this->startZ,this->startX,this->startY);
+    cout<<"Shortest step: "<<small<<endl;
+    cout<<"Done find shortest path maze"<<endl;
+
     //write code here
 }
 
-int 
-
 MazeGame::~MazeGame(){
+    cout<<"deleteting"<<endl;
     //delete every path
     for(int i = 0; i < mazeMap.size();i++){
         for(int j = 0; j < mazeMap[i].size();j++){
@@ -205,7 +220,7 @@ MazeGame::~MazeGame(){
         }
     }
     //delete GraphNode
-    isShortPath(startNode);
+//    isShortPath(startNode);
 }
 
 //function will calculate the minimum step first

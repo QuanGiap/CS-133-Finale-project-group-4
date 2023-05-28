@@ -3,11 +3,11 @@
 #define OBSTACLE_H
 
 #include "Path.h"
-string DEFAULT_OBSTACLE_COLOR = "white";
 
 
 class Obstacle:public Path{
 private:
+    string DEFAULT_OBSTACLE_COLOR = "white";
     int costStep;
 public:
     Obstacle(int costStep);

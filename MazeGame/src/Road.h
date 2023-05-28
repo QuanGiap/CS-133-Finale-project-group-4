@@ -3,8 +3,8 @@
 #define ROAD_H
 #include "Path.h"
 
-const string DEFAULT_ROAD_COLOR = "white";
 class Road:public Path{
+    const string DEFAULT_ROAD_COLOR = "white";
 public:
     Road();
     pathType getType() const;

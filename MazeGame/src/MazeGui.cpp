@@ -8,6 +8,9 @@ void MazeGui:: animate() {
     });
 }
 
-MazeGui::MazeGui(MazeGame* model) : model(model) , window(nullptr) {
-    window = new GWindow(model->length, model->width);
+//MazeGui::MazeGui(MazeGame* model) : model(model) , window(nullptr) {
+//    window = new GWindow(model->length, model->width);
+//}
+void MazeGui:: update() {
+
 }

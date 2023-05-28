@@ -3,7 +3,6 @@
 #define PATH_H
 #include <iostream>
 using namespace std;
-const string DEFAULT_PATH_COLOR = "white";
 
 //enum for different kind of paths
 enum pathType{
@@ -17,6 +16,7 @@ enum pathType{
 
 //a parent class to set up different kind of paths
 class Path{
+    const string DEFAULT_PATH_COLOR = "white";
 public:
     //constructor of path
     Path();

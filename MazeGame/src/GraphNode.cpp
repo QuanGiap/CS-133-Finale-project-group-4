@@ -1,10 +1,18 @@
-
 #include "GraphNode.h"
-
+#include <iostream>
+using namespace std;
 GraphNode::GraphNode(int x,int y,int z){
     this->x = x;
     this->y = y;
     this->z = z;
+    this->waitTurn = 0;
+    this->isFinishNode = false;
+}
+GraphNode::GraphNode(int x,int y,int z,int waitTurn){
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->waitTurn = waitTurn;
     this->isFinishNode = false;
 }
 GraphNode::GraphNode(int x,int y,int z,vector<GraphNode*> vGraph){

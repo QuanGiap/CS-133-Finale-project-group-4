@@ -3,9 +3,9 @@
 #define WALL_H
 
 #include "Path.h"
-const string DEFAULT_WALL_COLOR = "black";
 
 class Wall:public Path{
+    const string DEFAULT_WALL_COLOR = "black";
 public:
     Wall();
     pathType getType() const;

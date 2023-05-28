@@ -3,10 +3,10 @@
 #define STAIR_H
 
 #include "Path.h"
-const string DEFAULT_STAIR_COLOR = "white";
 
 class Stair:public Path{
 private:
+    const string DEFAULT_STAIR_COLOR = "white";
     int x;
     int y;
     int z;
