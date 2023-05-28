@@ -112,7 +112,7 @@ void MazeGame::savePath(GraphNode* node){
     int x = node->x;
     int y = node->y;
     int z = node->z;
-    cout<<z<<" "<<x<<" "<<y<<endl;
+//    cout<<z<<" "<<x<<" "<<y<<endl;
     this->shortPathPos[z].push_back({x,y});
 }
 
@@ -125,7 +125,7 @@ void MazeGame::readFile(ifstream& input){
     this->startX = stoi(str);
     getline(input,str); 
     this->startY = stoi(str);
-    cout<<"Z is "<<startZ<<" X is "<<startX<<" Y is "<<startY<<endl;
+//    cout<<"Z is "<<startZ<<" X is "<<startX<<" Y is "<<startY<<endl;
     while(getline(input,str)){
         char c;
         int lengthX = stoi(str);
@@ -145,7 +145,6 @@ void MazeGame::readFile(ifstream& input){
         this->mazeMap.push_back(lineY);
         heightZ++;
     }
-//    cout<<mazeMap.size()<<" "<<mazeMap[0].size()<<" "<<mazeMap[0][0].size();
 }
 
 void MazeGame::createEmptyMaze(vector<vector<vector<Path*>>> maze) {
@@ -190,7 +189,6 @@ Path* MazeGame::getPath(char c,int z,int x,int y){
             newPath = new Obstacle(c-'0');
         }
         else{
-            cout<<"Invalid symbol is "<<c<<endl;
             throw string("Invalid symbol");
         }
         break;
@@ -203,14 +201,11 @@ MazeGame::MazeGame(ifstream& input){
     this->foundfinishNode = false;
     this->readFile(input);
     int small = this->findShortPath(this->startZ,this->startX,this->startY);
-    cout<<"Shortest step: "<<small<<endl;
-    cout<<"Done find shortest path maze"<<endl;
 
     //write code here
 }
 
 MazeGame::~MazeGame(){
-    cout<<"deleteting"<<endl;
     //delete every path
     for(int i = 0; i < mazeMap.size();i++){
         for(int j = 0; j < mazeMap[i].size();j++){
@@ -219,8 +214,8 @@ MazeGame::~MazeGame(){
             }
         }
     }
-    //delete GraphNode
-//    isShortPath(startNode);
+//    delete GraphNode
+    isShortPath(startNode);
 }
 
 //function will calculate the minimum step first
