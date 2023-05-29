@@ -1,4 +1,4 @@
-#include "MazeGame.h"
+#include "MazeSystem.h"
 using namespace std;
 
 //return the step cost when go to the given position
@@ -116,15 +116,16 @@ void MazeGame::savePath(GraphNode* node){
     this->shortPathPos[z].push_back({x,y});
 }
 
-void MazeGame::readFile(ifstream& input){
+void MazeGame::createMap(ifstream& input){
     string str;
     int heightZ = 0;
+    //skip get start position
     getline(input,str);
-    this->startZ = stoi(str);
+//    this->startZ = stoi(str);
     getline(input,str);
-    this->startX = stoi(str);
+//    this->startX = stoi(str);
     getline(input,str); 
-    this->startY = stoi(str);
+//    this->startY = stoi(str);
 //    cout<<"Z is "<<startZ<<" X is "<<startX<<" Y is "<<startY<<endl;
     while(getline(input,str)){
         char c;
@@ -197,10 +198,9 @@ Path* MazeGame::getPath(char c,int z,int x,int y){
 }
 //create a maze base on given txt file.
 MazeGame::MazeGame(ifstream& input){
-    this->isShowPath = false;
     this->foundfinishNode = false;
-    this->readFile(input);
-    int small = this->findShortPath(this->startZ,this->startX,this->startY);
+    this->createMap(input);
+//    int small = this->findShortPath(this->startZ,this->startX,this->startY);
 
     //write code here
 }
@@ -218,14 +218,25 @@ MazeGame::~MazeGame(){
     isShortPath(startNode);
 }
 
-//function will calculate the minimum step first
-//before allow user to play the game
-void MazeGame::startGame(int z,int x,int y){
-    //write code here
+unordered_map<int,vector<vector<int>>> MazeGame::getMapDirection(){
+    return this->shortPathPos;
 }
 
-//
-void MazeGame::showPath(){
-    //write code here
+vector<vector<vector<Path*>>> MazeGame::getMazeMap(){
+    return this->mazeMap;
 }
 
+
+int MazeGame::getLength(){
+    if(this->mazeMap.size() == 0) return -1;
+    return this->mazeMap[0][0].size();
+}
+    
+int MazeGame::getWidth(){
+    if(this->mazeMap.size() == 0) return -1;
+    return this->mazeMap[0].size();
+}
+
+int MazeGame::getHeight(){
+    return this->mazeMap.size();
+}

@@ -5,6 +5,7 @@
 #include "gbutton.h"
 #include <Windows.h>
 #include "MazeGame.h"
+#include "MazeSystem.h"
 
 using namespace sgl;
 
