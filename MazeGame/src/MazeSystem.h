@@ -1,6 +1,6 @@
 
-#ifndef MAZEGAME_H
-#define MAZEGAME_H
+#ifndef MAZESYSTEM_H
+#define MAZESYSTEM_H
 
 #include <iostream>
 #include <unordered_map>
@@ -30,7 +30,6 @@ private:
     unordered_map<char,Stair*> stairMap;
     GraphNode* startNode;
     bool foundfinishNode;
-    bool isShowPath;
     
     //queue is used for breadth first search
     queue<GraphNode*> qGraph;
@@ -49,10 +48,6 @@ private:
     //return -1 if unable to go to the given position
     int checkPath(int z,int x,int y,GraphNode* prev);
 
-    //return the smallest step required to get to the finish line
-    //return -1 if impossible to get to the finish line
-    int findShortPath(int startZ,int startX,int startY);
-
     //Use deep first search to see if the path given is the shortest path
     //delete node after finish checking
     bool isShortPath(GraphNode* node);
@@ -66,8 +61,8 @@ private:
     //save the path position to map
     void savePath(GraphNode* node);
 
-    //read text file
-    void readFile(ifstream& input);
+    //create maze map from read text file
+    void createMap(ifstream& input);
 
     void createEmptyMaze(vector<vector<vector<Path*>>> maze);
 
@@ -78,16 +73,22 @@ public:
     MazeGame(ifstream& input);
     //destructor of MazeGame
     ~MazeGame();
-    //function will calculate the minimum step first before allow user to play the game
-    void startGame(int z,int x,int y);
 
-    void showPath();
+    //return the smallest step required to get to the finish line
+    //return -1 if impossible to get to the finish line
+    int findShortPath(int startZ,int startX,int startY);
+
+    unordered_map<int,vector<vector<int>>> getMapDirection();
+
+    vector<vector<vector<Path*>>> getMazeMap();
 
     int getLength();
     
     int getWidth();
 
+    int getHeight();
+
     int mazeSize;
 };
 
-#endif // MAZEGAME_H
+#endif // MAZESYSTEM_H

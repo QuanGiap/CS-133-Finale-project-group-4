@@ -3,7 +3,7 @@
 
 #include "gwindow.h"
 #include "gbutton.h"
-#include "MazeGame.h"
+#include "MazeSystem.h"
 
 using namespace sgl;
 

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <queue>
 #include <fstream>
-#include "MazeGame.h"
+#include "MazeSystem.h"
 #include "console.h"
 using namespace std;
 

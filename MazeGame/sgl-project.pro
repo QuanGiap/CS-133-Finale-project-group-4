@@ -70,7 +70,7 @@ SOURCES         *=  "" \
     src/FinishLine.cpp \
     src/GraphNode.cpp \
     src/LinkedNode.cpp \
-    src/MazeGame.cpp \
+    src/MazeSystem.cpp \
     src/Obstacle.cpp \
     src/Path.cpp \
     src/Road.cpp \
@@ -80,7 +80,7 @@ HEADERS         *=  "" \
     src/FinishLine.h \
     src/GraphNode.h \
     src/LinkedNode.h \
-    src/MazeGame.h \
+    src/MazeSystem.h \
     src/Obstacle.h \
     src/Path.h \
     src/Road.h \
