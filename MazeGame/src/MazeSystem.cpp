@@ -9,7 +9,6 @@ int MazeSystem::checkPath(int z,int x,int y,GraphNode* prev){
     if(isOutOfBound(z,x,y)||(prev!=nullptr && recordMap.count({z,x,y}))){
         return -1;
     }
-//    cout<<x<<" "<<y<<endl;
     int costStep = mazeMap[z][y][x]->getCostStep();
     //if program is finding short path
     if(costStep != -1 && prev != nullptr){
@@ -102,9 +101,24 @@ bool MazeSystem::isOutOfBound(int z,int x,int y){
     return (z<0||z>=mazeMap.size()||y<0||y>=mazeMap[z].size()||x<0||x>=mazeMap[z][y].size());
 }
 
- //update the UI maze
-void MazeSystem::updateUI(){
-
+//change position of player,
+//return true if player successfully move to the given position
+bool MazeSystem::changePosition(int z,int x,int y,bool isUseStair){
+    int costStep = this->checkPath(z,x,y);
+    if(costStep == -1){
+        return false;
+    }
+    if(!isUseStair){
+        this->curStep += costStep;
+    }
+    this->curZ = z;
+    this->curX = x;
+    this->curY = y;
+    //if number of current steps is enough to trigger an event
+    if(costStep%this->triggerStep==0){
+        this->triggerEvent();
+    }
+    return true;
 }
 
 //save the path position to map
@@ -121,12 +135,11 @@ void MazeSystem::createMap(ifstream& input){
     int heightZ = 0;
     //skip get start position
     getline(input,str);
-//    this->startZ = stoi(str);
+    this->curZ = stoi(str);
     getline(input,str);
-//    this->startX = stoi(str);
+    this->curX = stoi(str);
     getline(input,str); 
-//    this->startY = stoi(str);
-//    cout<<"Z is "<<startZ<<" X is "<<startX<<" Y is "<<startY<<endl;
+    this->curY = stoi(str);
     while(getline(input,str)){
         char c;
         int lengthX = stoi(str);
@@ -148,23 +161,46 @@ void MazeSystem::createMap(ifstream& input){
     }
 }
 
-//void MazeSystem::createEmptyMaze() {
-//    vector<vector<vector<Path*>>> newMaze;
+//create stair event
+void MazeSystem::createEvent(ifstream& inputEvent){
+    string str;
+    if(getline(inputEvent,str)){
+        this->triggerStep = stoi(str);
+        vector<vector<char>> curEvent;
+        while(getline(inputEvent,str)){
+            if(isalpha(str[0])){
+                curEvent.push_back({str[0],str[2]});
+            }else{
+                this->qEventStair.push(curEvent);
+                vector<vector<char>> newCurEvent;
+                curEvent = newCurEvent;
+            }
+        }
+    }
+}
 
-//    for(int z = 0; z < this->getHeight(); z++) {
-//        vector<vector<Path*>> maze2D;
-//        for(int x = 0; x < this->getWidth(); x++) {
-//            vector<Path*> row;
-//            for(int y = 0; y < this->getLength(); y++) {
-//                row.push_back(new Road());
-//            }
-//            maze2D.push_back(row);
-//        }
-//        newMaze.push_back(maze2D);
-//    }
-
-//    mazeMap = newMaze;
-//}
+//changing the link between the stair
+void MazeSystem::triggerEvent(){
+    if(this->qEventStair.size()!=0){
+        vector<vector<char>> curEvent = this->qEventStair.front();
+        for(const auto& v : curEvent){
+            string errorChar = "";
+            if(this->stairMap.count(v[0])==0){
+                errorChar = v[0];
+            }else if(this->stairMap.count(v[1])==0){
+                errorChar = v[1];
+            }
+            if(errorChar!=""){
+                throw string("Stair "+errorChar+" does not exist in maze");
+            }else{
+                stairMap[v[0]]->setNextStair(stairMap[v[1]]);
+                stairMap[v[1]]->setNextStair(stairMap[v[0]]);
+            }
+        }
+        this->qEventStair.pop();
+        this->qEventStair.push(curEvent);
+    }
+}
 
 Path* MazeSystem::getPath(char c,int z,int x,int y){
     Path* newPath = nullptr;
@@ -197,11 +233,15 @@ Path* MazeSystem::getPath(char c,int z,int x,int y){
     return newPath;
 }
 //create a maze base on given txt file.
-MazeSystem::MazeSystem(ifstream& input){
+MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
     this->foundfinishNode = false;
-    this->createMap(input);
-//    int small = this->findShortPath(this->startZ,this->startX,this->startY);
-
+    this->createMap(inputMaze);;
+    this->createEvent(inputEvent);
+    //create inital connection stair
+    this->triggerEvent();
+    this->curStep = 0;
+    int small = this->findShortPath(this->curZ,this->curX,this->curY);
+//    cout<<"Step took: "<<small<<endl;
     //write code here
 }
 
@@ -224,25 +264,90 @@ int MazeSystem::checkPath(int z,int x,int y){
     return this->checkPath(z,x,y,nullptr);
 }
 
-unordered_map<int,vector<vector<int>>> MazeSystem::getMapDirection(){
+//return map that show shortest map for maze
+//key is the level of maze, value is vector of position {x, y}
+unordered_map<int,vector<vector<int>>> MazeSystem::getMapDirection()const{
     return this->shortPathPos;
 }
 
-vector<vector<vector<Path*>>> MazeSystem::getMazeMap(){
+//return 3D vector mazemap
+vector<vector<vector<Path*>>> MazeSystem::getMazeMap()const{
     return this->mazeMap;
 }
 
-
-int MazeSystem::getLength(){
+//return length x of the maze map
+//return -1 if there is error
+int MazeSystem::getLength() const{
     if(this->mazeMap.size() == 0) return -1;
     return this->mazeMap[0][0].size();
 }
-    
-int MazeSystem::getWidth(){
+
+//return width y of the maze map
+//return -1 if there is error
+int MazeSystem::getWidth() const{
     if(this->mazeMap.size() == 0) return -1;
     return this->mazeMap[0].size();
 }
 
-int MazeSystem::getHeight(){
+//return height z of the maze map
+//return -1 if there is error
+int MazeSystem::getHeight() const{
     return this->mazeMap.size();
+}
+
+//return current position of x
+int MazeSystem::getCurX() const{
+    return this->curX;
+}
+
+//return current position of y
+int MazeSystem::getCurY() const{
+    return this->curY;
+}
+
+//return current position of z
+int MazeSystem::getCurZ() const{
+    return this->curZ;
+}
+
+//return current step player have make
+int MazeSystem::getCurStep() const{
+    return this->curStep;
+}
+
+//move the player to the left
+//return true if succesfully moved
+bool MazeSystem::moveLeft(){
+    return this->changePosition(this->curZ,this->curX-1,this->curY,false);
+}
+
+//move the player to the right
+//return true if succesfully moved
+bool MazeSystem::moveRight(){
+    return this->changePosition(this->curZ,this->curX+1,this->curY,false);
+}
+
+//move the player up
+//return true if succesfully moved
+bool MazeSystem::moveUp(){
+    return this->changePosition(this->curZ,this->curX,this->curY-1,false);
+}
+
+//move the player down
+//return true if succesfully moved
+bool MazeSystem::moveDown(){
+    return this->changePosition(this->curZ,this->curX,this->curY+1,false);
+}
+
+//move the player to the next stair
+//return true if succesfully moved
+bool MazeSystem::useStair(){
+    Path* curPath = this->mazeMap[this->curZ][this->curY][this->curX];
+    if(curPath->getType() != stair){
+        return false;
+    }
+    int nextX = ((Stair*)curPath)->getNextX();
+    int nextY = ((Stair*)curPath)->getNextY();
+    int nextZ = ((Stair*)curPath)->getNextZ();
+    return this->changePosition(nextZ,nextX,nextY,true);
 }

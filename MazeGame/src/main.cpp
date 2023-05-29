@@ -7,25 +7,29 @@
 #include "console.h"
 using namespace std;
 
-void getInputFile(ifstream& input) {
+ifstream* getInputFile(string type) {
+    ifstream* input = new ifstream();
     string filename;
-    cout<< "File name to create a Maze? ";
+    cout<< "File name to "+type+"? ";
     bool isFile = false;    
     while(!isFile) {
         getline(cin, filename);
-        input.open(filename);
-        if(input.good()) {
+        input->open(filename);
+        if(input->good()) {
             isFile = true;
         } else {
-            input.close();
+            input->close();
             cout << "File not found. Try again: ";
         }
     }
+    return input;
 }
 
 int main() {
-    ifstream input;
-    getInputFile(input);
-    MazeGame mazeGame(input);
+    ifstream* inputMaze = getInputFile("create a maze");
+    ifstream* inputEvent = getInputFile("create stair event");
+    MazeSystem MazeSystem(*inputMaze,*inputEvent);
+    delete inputMaze;
+    delete inputEvent;
     return 0;
 }
