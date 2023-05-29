@@ -16,17 +16,11 @@
 #include <fstream>
 using namespace std;
 
-class MazeGame{
+class MazeSystem{
 private:
     static constexpr char WALL_SYMBOL = '-';
     static constexpr char ROAD_SYMBOL = '*';
     static constexpr char FINISH_SYMBOL = '$';
-    int startX;
-    int startY;
-    int startZ;
-    int length;
-    int width;
-    int height;
     unordered_map<char,Stair*> stairMap;
     GraphNode* startNode;
     bool foundfinishNode;
@@ -64,19 +58,23 @@ private:
     //create maze map from read text file
     void createMap(ifstream& input);
 
-    void createEmptyMaze(vector<vector<vector<Path*>>> maze);
+//    void createEmptyMaze();
 
     //get path from character, and given position
     Path* getPath(char c,int z,int x,int y);
 public:
     //create a maze base on given txt file.
-    MazeGame(ifstream& input);
-    //destructor of MazeGame
-    ~MazeGame();
+    MazeSystem(ifstream& input);
+    //destructor of MazeSystem
+    ~MazeSystem();
 
     //return the smallest step required to get to the finish line
     //return -1 if impossible to get to the finish line
     int findShortPath(int startZ,int startX,int startY);
+
+    //return the step cost when go to the given position
+    //return -1 if unable to go to the given position
+    int checkPath(int z,int x,int y);
 
     unordered_map<int,vector<vector<int>>> getMapDirection();
 
@@ -88,7 +86,6 @@ public:
 
     int getHeight();
 
-    int mazeSize;
 };
 
 #endif // MAZESYSTEM_H

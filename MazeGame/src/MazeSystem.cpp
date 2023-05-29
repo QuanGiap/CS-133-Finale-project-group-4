@@ -4,7 +4,7 @@ using namespace std;
 //return the step cost when go to the given position
 //if GraphNode is nullptr mean program not finding that short path
 //return -1 if unable to go to the given position
-int MazeGame::checkPath(int z,int x,int y,GraphNode* prev){
+int MazeSystem::checkPath(int z,int x,int y,GraphNode* prev){
     //check if position check is out of bound or the program already used this path
     if(isOutOfBound(z,x,y)||(prev!=nullptr && recordMap.count({z,x,y}))){
         return -1;
@@ -35,7 +35,7 @@ int MazeGame::checkPath(int z,int x,int y,GraphNode* prev){
 
 //return the smallest step required to get to the finish line
 //return -1 if impossible to get to the finish line
-int MazeGame::findShortPath(int sZ,int sX,int sY){
+int MazeSystem::findShortPath(int sZ,int sX,int sY){
     int current_step = 0;
     //check if the start position is valid
     const int step_check = this->checkPath(sZ,sX,sY,nullptr);
@@ -77,7 +77,7 @@ int MazeGame::findShortPath(int sZ,int sX,int sY){
 
 //Use deep first search to see if the path given is the shortest path
 //delete node after finish checking
-bool MazeGame::isShortPath(GraphNode* node){
+bool MazeSystem::isShortPath(GraphNode* node){
     bool foundPath = false;
     if(node != nullptr) {
         if(node->isFinishNode){
@@ -98,17 +98,17 @@ bool MazeGame::isShortPath(GraphNode* node){
 }
 
 //check if the given position is out of bound
-bool MazeGame::isOutOfBound(int z,int x,int y){
+bool MazeSystem::isOutOfBound(int z,int x,int y){
     return (z<0||z>=mazeMap.size()||y<0||y>=mazeMap[z].size()||x<0||x>=mazeMap[z][y].size());
 }
 
  //update the UI maze
-void MazeGame::updateUI(){
+void MazeSystem::updateUI(){
 
 }
 
 //save the path position to map
-void MazeGame::savePath(GraphNode* node){
+void MazeSystem::savePath(GraphNode* node){
     int x = node->x;
     int y = node->y;
     int z = node->z;
@@ -116,7 +116,7 @@ void MazeGame::savePath(GraphNode* node){
     this->shortPathPos[z].push_back({x,y});
 }
 
-void MazeGame::createMap(ifstream& input){
+void MazeSystem::createMap(ifstream& input){
     string str;
     int heightZ = 0;
     //skip get start position
@@ -148,25 +148,25 @@ void MazeGame::createMap(ifstream& input){
     }
 }
 
-void MazeGame::createEmptyMaze(vector<vector<vector<Path*>>> maze) {
-    vector<vector<vector<Path*>>> newMaze;
+//void MazeSystem::createEmptyMaze() {
+//    vector<vector<vector<Path*>>> newMaze;
 
-    for(int z = 0; z < height; z++) {
-        vector<vector<Path*>> maze2D;
-        for(int x = 0; x < length; x++) {
-            vector<Path*> row;
-            for(int y = 0; y < width; y++) {
-                row.push_back(new Road());
-            }
-            maze2D.push_back(row);
-        }
-        newMaze.push_back(maze2D);
-    }
+//    for(int z = 0; z < this->getHeight(); z++) {
+//        vector<vector<Path*>> maze2D;
+//        for(int x = 0; x < this->getWidth(); x++) {
+//            vector<Path*> row;
+//            for(int y = 0; y < this->getLength(); y++) {
+//                row.push_back(new Road());
+//            }
+//            maze2D.push_back(row);
+//        }
+//        newMaze.push_back(maze2D);
+//    }
 
-    mazeMap = newMaze;
-}
+//    mazeMap = newMaze;
+//}
 
-Path* MazeGame::getPath(char c,int z,int x,int y){
+Path* MazeSystem::getPath(char c,int z,int x,int y){
     Path* newPath = nullptr;
     switch (c)    {
     case WALL_SYMBOL:
@@ -197,7 +197,7 @@ Path* MazeGame::getPath(char c,int z,int x,int y){
     return newPath;
 }
 //create a maze base on given txt file.
-MazeGame::MazeGame(ifstream& input){
+MazeSystem::MazeSystem(ifstream& input){
     this->foundfinishNode = false;
     this->createMap(input);
 //    int small = this->findShortPath(this->startZ,this->startX,this->startY);
@@ -205,7 +205,7 @@ MazeGame::MazeGame(ifstream& input){
     //write code here
 }
 
-MazeGame::~MazeGame(){
+MazeSystem::~MazeSystem(){
     //delete every path
     for(int i = 0; i < mazeMap.size();i++){
         for(int j = 0; j < mazeMap[i].size();j++){
@@ -218,25 +218,31 @@ MazeGame::~MazeGame(){
     isShortPath(startNode);
 }
 
-unordered_map<int,vector<vector<int>>> MazeGame::getMapDirection(){
+//return the step cost when go to the given position
+//return -1 if unable to go to the given position
+int MazeSystem::checkPath(int z,int x,int y){
+    return this->checkPath(z,x,y,nullptr);
+}
+
+unordered_map<int,vector<vector<int>>> MazeSystem::getMapDirection(){
     return this->shortPathPos;
 }
 
-vector<vector<vector<Path*>>> MazeGame::getMazeMap(){
+vector<vector<vector<Path*>>> MazeSystem::getMazeMap(){
     return this->mazeMap;
 }
 
 
-int MazeGame::getLength(){
+int MazeSystem::getLength(){
     if(this->mazeMap.size() == 0) return -1;
     return this->mazeMap[0][0].size();
 }
     
-int MazeGame::getWidth(){
+int MazeSystem::getWidth(){
     if(this->mazeMap.size() == 0) return -1;
     return this->mazeMap[0].size();
 }
 
-int MazeGame::getHeight(){
+int MazeSystem::getHeight(){
     return this->mazeMap.size();
 }

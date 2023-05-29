@@ -13,7 +13,7 @@ class MazeGui {
     private:
         GWindow* window;
 
-        MazeGame* model;
+        MazeSystem* model;
 
         void drawModel();
 
@@ -23,7 +23,7 @@ class MazeGui {
         int pos_y;
 
     public:
-        MazeGui(MazeGame* model);
+        MazeGui(MazeSystem* model);
 
         void update();
 
