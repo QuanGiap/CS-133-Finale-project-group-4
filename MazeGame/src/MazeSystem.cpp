@@ -67,7 +67,7 @@ int MazeSystem::findShortPath(int sZ,int sX,int sY){
     }
     //save the short path in map and delete node
     this->isShortPath(startNode);
-
+    startNode=nullptr;
     if(!this->foundfinishNode){
         return -1;
     }
