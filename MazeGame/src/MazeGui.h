@@ -3,7 +3,6 @@
 
 #include "gwindow.h"
 #include "gbutton.h"
-#include <Windows.h>
 #include "MazeSystem.h"
 
 using namespace sgl;
@@ -15,11 +14,6 @@ class MazeGui {
         MazeSystem* model;
 
         void drawModel();
-
-        void animate();
-
-        int pos_x;
-        int pos_y;
 
     public:
         MazeGui(MazeSystem* model);
