@@ -77,6 +77,9 @@ private:
     //changing the link between the stair
     void triggerEvent();
 
+    //reset find short path
+    void resetFind();
+
     //get path from character, and given position
     Path* getPath(char c,int z,int x,int y);
 public:

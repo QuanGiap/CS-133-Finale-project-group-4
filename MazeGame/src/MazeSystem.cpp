@@ -35,16 +35,16 @@ int MazeSystem::checkPath(int z,int x,int y,GraphNode* prev){
 //return the smallest step required to get to the finish line
 //return -1 if impossible to get to the finish line
 int MazeSystem::findShortPath(int sZ,int sX,int sY){
-    int current_step = 0;
+    int currentStep = 0;
+    this->resetFind();
     //check if the start position is valid
-    const int step_check = this->checkPath(sZ,sX,sY,nullptr);
-    if(step_check == -1){
+    const int stepCheck = this->checkPath(sZ,sX,sY,nullptr);
+    if(stepCheck == -1){
         return -1;
     }
     //setting up breadth first search
-    startNode = new GraphNode(sX,sY,sZ,step_check);
-    this->qGraph.push(startNode);
-    this->recordMap.insert({sZ,sX,sY});
+    startNode = new GraphNode(sX,sY,sZ,stepCheck);
+    this->checkPath(sZ,sX,sY,startNode);
     while(!this->qGraph.empty()&&!this->foundfinishNode){
         int size = this->qGraph.size();
         for(int i = 0; i < size;i++){
@@ -62,7 +62,7 @@ int MazeSystem::findShortPath(int sZ,int sX,int sY){
                 this->checkPath(z,x,y-1,curNode);
             }
         }
-        current_step++;
+        currentStep++;
     }
     //clear short path map
     this->shortPathPos.clear();
@@ -73,8 +73,8 @@ int MazeSystem::findShortPath(int sZ,int sX,int sY){
     if(!this->foundfinishNode){
         return -1;
     }
-
-    return current_step;
+//    cout<<"It take "<<currentStep<<" steps"<<endl;
+    return currentStep;
 }
 
 //Use deep first search to see if the path given is the shortest path
@@ -206,6 +206,15 @@ void MazeSystem::triggerEvent(){
     }
 }
 
+void MazeSystem::resetFind(){
+    this->foundfinishNode = false;
+    this->recordMap.clear();
+    //all node graph is already deleted
+    while(!qGraph.empty()){
+        qGraph.pop();
+    }
+}
+
 Path* MazeSystem::getPath(char c,int z,int x,int y){
     Path* newPath = nullptr;
     switch (c)    {
@@ -244,17 +253,19 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
     //create inital connection stair
     this->triggerEvent();
     this->curStep = 0;
-    //check system maze moving command
+//    //check system maze moving command
 //    string input= "";
 //    cout<<"Input your command: ";
 //    cin>>input;
-//    while(input!=""){
+//    while(input!="exit"){
 //        if(input=="a") this->moveLeft();
 //        else if(input=="d") this->moveRight();
 //        else if(input=="w") this->moveUp();
 //        else if(input=="s") this->moveDown();
 //        else if(input=="e") this->useStair();
+//        else if(input=="f") this->findShortPath(curZ,curX,curY);
 //        cout<<"Current pos: "<<this->curZ<<" "<<this->curX<<" "<<this->curY<<endl;
+//        cout<<"Input your command: ";
 //        cin>>input;
 //    }
 }
