@@ -24,7 +24,7 @@ class MazeGui {
         static const int DELAY;
 
         //Function to check the key states
-        void keyCheck();
+        void keyCheck(const GKeyEvent& event);
         
         //User
         //void player(int x, int y);

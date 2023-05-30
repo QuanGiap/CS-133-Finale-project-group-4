@@ -64,8 +64,11 @@ int MazeSystem::findShortPath(int sZ,int sX,int sY){
         }
         current_step++;
     }
+    //clear short path map
+    this->shortPathPos.clear();
     //save the short path in map and delete node
     this->isShortPath(startNode);
+    //because startNode is deleted, set it to null
     startNode=nullptr;
     if(!this->foundfinishNode){
         return -1;
@@ -115,7 +118,7 @@ bool MazeSystem::changePosition(int z,int x,int y,bool isUseStair){
     this->curX = x;
     this->curY = y;
     //if number of current steps is enough to trigger an event
-    if(costStep%this->triggerStep==0){
+    if(!isUseStair&&this->curStep%this->triggerStep==0){
         this->triggerEvent();
     }
     return true;
@@ -199,6 +202,7 @@ void MazeSystem::triggerEvent(){
         }
         this->qEventStair.pop();
         this->qEventStair.push(curEvent);
+//        cout<<"Event stair triggered"<<endl;
     }
 }
 
@@ -240,9 +244,19 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
     //create inital connection stair
     this->triggerEvent();
     this->curStep = 0;
-    int small = this->findShortPath(this->curZ,this->curX,this->curY);
-//    cout<<"Step took: "<<small<<endl;
-    //write code here
+    //check system maze moving command
+//    string input= "";
+//    cout<<"Input your command: ";
+//    cin>>input;
+//    while(input!=""){
+//        if(input=="a") this->moveLeft();
+//        else if(input=="d") this->moveRight();
+//        else if(input=="w") this->moveUp();
+//        else if(input=="s") this->moveDown();
+//        else if(input=="e") this->useStair();
+//        cout<<"Current pos: "<<this->curZ<<" "<<this->curX<<" "<<this->curY<<endl;
+//        cin>>input;
+//    }
 }
 
 MazeSystem::~MazeSystem(){
