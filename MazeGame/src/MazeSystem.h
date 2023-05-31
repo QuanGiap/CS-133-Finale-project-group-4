@@ -103,7 +103,7 @@ public:
 
     //return map that show shortest map for maze
     //key is the level of maze, value is vector of position {x, y}
-    unordered_map<int,vector<vector<int>>> getMapDirection() const;
+    unordered_map<int,vector<vector<int>>>& getMapDirection();
 
     //return 3D vector mazemap
     vector<vector<vector<Path*>>> getMazeMap() const;

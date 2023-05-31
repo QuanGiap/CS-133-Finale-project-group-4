@@ -309,7 +309,7 @@ int MazeSystem::checkPath(int z,int x,int y){
 
 //return map that show shortest map for maze
 //key is the level of maze, value is vector of position {x, y}
-unordered_map<int,vector<vector<int>>> MazeSystem::getMapDirection()const{
+unordered_map<int,vector<vector<int>>>& MazeSystem::getMapDirection(){
     return this->shortPathPos;
 }
 
