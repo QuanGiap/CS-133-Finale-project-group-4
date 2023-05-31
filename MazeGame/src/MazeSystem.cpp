@@ -1,6 +1,21 @@
 #include "MazeSystem.h"
 using namespace std;
 
+Path* MazeSystem::get(int x, int y, int z) const{
+    return mazeMap[z][y][x];
+}
+
+Path* MazeSystem::getUser() {
+    return mazeMap[curZ][curY][curX];
+}
+
+pathType MazeSystem::getType(int x, int y, int z) const{
+    return mazeMap[z][y][x]->getType();
+}
+
+string MazeSystem::getColor(int x, int y, int z) const {
+    return mazeMap[z][y][x]->getColor();
+}
 //return the step cost when go to the given position
 //if GraphNode is nullptr mean program not finding that short path
 //return -1 if unable to go to the given position
@@ -73,7 +88,7 @@ int MazeSystem::findShortPath(int sZ,int sX,int sY){
     if(!this->foundfinishNode){
         return -1;
     }
-//    cout<<"It take "<<currentStep<<" steps"<<endl;
+    cout<<"It take "<<currentStep<<" steps"<<endl;
     return currentStep;
 }
 
@@ -114,9 +129,12 @@ bool MazeSystem::changePosition(int z,int x,int y,bool isUseStair){
     if(!isUseStair){
         this->curStep += costStep;
     }
+    //mazeMap[curZ][curY][curX]->toggleUser();
     this->curZ = z;
     this->curX = x;
     this->curY = y;
+   // mazeMap[z][y][x]->toggleUser();
+
     //if number of current steps is enough to trigger an event
     if(!isUseStair&&this->curStep%this->triggerStep==0){
         this->triggerEvent();

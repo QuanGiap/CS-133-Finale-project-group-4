@@ -6,7 +6,7 @@
 
 
 class FinishLine:public Path{
-    const string DEFAULT_FINISH_LINE_COLOR = "orange";
+    const string DEFAULT_FINISH_LINE_COLOR = "blue";
 public:
     FinishLine();
     pathType getType() const;

@@ -6,7 +6,7 @@
 
 class Stair:public Path{
 private:
-    const string DEFAULT_STAIR_COLOR = "white";
+    const string DEFAULT_STAIR_COLOR = "yellow";
     int x;
     int y;
     int z;

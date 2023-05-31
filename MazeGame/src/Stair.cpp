@@ -16,9 +16,17 @@ Stair::Stair(int x,int y,int z,Stair* next){
 pathType Stair::getType() const{
     return stair;
 }
+//string Stair::getColor() const{
+//    return DEFAULT_STAIR_COLOR;
+//}
+
 string Stair::getColor() const{
+//    if(isUser()) {
+//        return USER_COLOR;
+//    }
     return DEFAULT_STAIR_COLOR;
 }
+
 int Stair::getNextX() const{
     return this->next->x;
 }

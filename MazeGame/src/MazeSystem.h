@@ -83,6 +83,11 @@ private:
     //get path from character, and given position
     Path* getPath(char c,int z,int x,int y);
 public:
+    string getColor(int x, int y, int z) const;
+    pathType getType(int x, int y, int z) const;
+    Path* getUser();
+    Path* get(int x, int y, int z) const;
+
     //create a maze base on given txt file.
     MazeSystem(ifstream& inputMaze,ifstream& inputEvent);
     //destructor of MazeSystem
