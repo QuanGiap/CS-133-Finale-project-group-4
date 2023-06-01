@@ -1,17 +1,27 @@
 
 #include "Stair.h"
 
-Stair::Stair(int x,int y,int z){
+Stair::Stair(int x,int y,vector<vector<Path*>>* mazeMap){
     this->x = x;
     this->y = y;
-    this->z = z;
     this->next = nullptr;
+    this->mazeMap=mazeMap;
 }
-Stair::Stair(int x,int y,int z,Stair* next){
+Stair::Stair(int x,int y,vector<vector<Path*>>* mazeMap,Stair* next){
     this->x = x;
     this->y = y;
-    this->z = z;
+    this->mazeMap=mazeMap;
     this->next = next;
+}
+Stair::~Stair(){
+    if(this->mazeMap!=nullptr){
+        for(int y = 0;y < this->mazeMap->size();y++){
+            for(int x = 0;x < this->mazeMap[y].size();x++){
+                delete (*this->mazeMap)[y][x];
+            }
+        }
+        delete this->mazeMap;
+    }
 }
 pathType Stair::getType() const{
     return stair;
@@ -33,17 +43,14 @@ int Stair::getNextX() const{
 int Stair::getNextY() const{
     return this->next->y;
 }
-int Stair::getNextZ() const{
-    return this->next->z;
+vector<vector<Path*>>* Stair::getNextMaze() const{
+    return this->next->mazeMap;
 }
 int Stair::getX() const{
     return this->x;
 }
 int Stair::getY() const{
     return this->y;
-}
-int Stair::getZ() const{
-    return this->z;
 }
 
 void Stair::setNextStair(Stair* stair){

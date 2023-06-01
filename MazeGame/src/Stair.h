@@ -3,25 +3,26 @@
 #define STAIR_H
 
 #include "Path.h"
+#include <vector>
 
 class Stair:public Path{
 private:
     const string DEFAULT_STAIR_COLOR = "yellow";
     int x;
     int y;
-    int z;
     Stair* next;
+    vector<vector<Path*>>* mazeMap;
 public:
-    Stair(int X,int Y,int Z);
-    Stair(int X,int Y,int Z,Stair* next);
+    Stair(int x,int y,vector<vector<Path*>>* mazeMap);
+    Stair(int x,int y,vector<vector<Path*>>* mazeMap,Stair* next);
+    ~Stair();
     pathType getType() const;
     string getColor() const;
     int getNextX() const;
     int getNextY() const;
-    int getNextZ() const;
+    vector<vector<Path*>>* getNextMaze() const;
     int getX() const;
     int getY() const;
-    int getZ() const;
     void setNextStair(Stair* stair);
 };
 

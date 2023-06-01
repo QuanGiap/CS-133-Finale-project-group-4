@@ -29,7 +29,7 @@ void MazeGui::handleKey(const GKeyEvent& event) {
         model->moveRight();
        // cout << "HIT Right" << endl;
     } else if(key == "f") {
-        model->findShortPath(model->getCurZ(), model->getCurY(), model->getCurX());
+        model->findShortPath(model->getCurY(), model->getCurX());
     }
 
     if(model->getUser()->getType() == finishPoint) {
@@ -60,7 +60,7 @@ void MazeGui::drawMaze() {
     window->clear();
     for(int x = 0; x < model->getLength(); x++) {
         for(int y = 0; y < model->getWidth(); y++) {
-            Path* path = model->get(x,y,model->getCurZ());
+            Path* path = model->get(x,y);
             if(path != nullptr) {
                 //cout << path->toString();
                 if(model->getCurY() == y && model->getCurX() == x) {

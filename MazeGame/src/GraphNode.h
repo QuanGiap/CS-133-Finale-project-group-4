@@ -2,6 +2,7 @@
 #ifndef GRAPHNODE_H
 #define GRAPHNODE_H
 #include <vector>
+#include "Path.h"
 using namespace std;
 
 
@@ -10,13 +11,13 @@ private:
     int waitTurn;
     vector<GraphNode*> vGraph;
 public:
+    vector<vector<Path*>>* mazeMap;
     int x;
     int y;
-    int z;
     bool isFinishNode;
-    GraphNode(int x,int y,int z);
-    GraphNode(int x,int y,int z,int waitTurn);
-    GraphNode(int x,int y,int z,vector<GraphNode*> vGraph);
+    GraphNode(int x,int y,vector<vector<Path*>>* mazeMap);
+    GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,int waitTurn);
+    GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,vector<GraphNode*> vGraph);
     bool isWait();
     GraphNode* getLastNode();
     bool empty();

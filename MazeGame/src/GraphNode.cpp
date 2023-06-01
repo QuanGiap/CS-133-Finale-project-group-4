@@ -1,24 +1,24 @@
 #include "GraphNode.h"
 #include <iostream>
 using namespace std;
-GraphNode::GraphNode(int x,int y,int z){
+GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap){
     this->x = x;
     this->y = y;
-    this->z = z;
+    this->mazeMap = mazeMap;
     this->waitTurn = 0;
     this->isFinishNode = false;
 }
-GraphNode::GraphNode(int x,int y,int z,int waitTurn){
+GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,int waitTurn){
     this->x = x;
     this->y = y;
-    this->z = z;
+    this->mazeMap = mazeMap;
     this->waitTurn = waitTurn;
     this->isFinishNode = false;
 }
-GraphNode::GraphNode(int x,int y,int z,vector<GraphNode*> vGraph){
+GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,vector<GraphNode*> vGraph){
     this->x = x;
     this->y = y;
-    this->z = z;
+    this->mazeMap = mazeMap;
     this->isFinishNode = false;
     this->vGraph = vGraph;
 }
