@@ -33,10 +33,6 @@ public:
     virtual string getColor() const = 0;
     //return cost step to get this path
     virtual int getCostStep() const;
-
-//    virtual bool isUser() const;
-
-//    void toggleUser();
 };
 
 #endif // PATH_H

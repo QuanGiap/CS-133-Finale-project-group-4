@@ -14,11 +14,3 @@ string Path::getColor() const{
 int Path::getCostStep() const{
     return 1;
 }
-
-//bool Path::isUser() const {
-//    return user;
-//}
-
-//void Path::toggleUser() {
-//    user = !user;
-//}
