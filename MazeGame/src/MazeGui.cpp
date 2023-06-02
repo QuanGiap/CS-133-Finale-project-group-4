@@ -40,11 +40,11 @@ void MazeGui::handleKey(const GKeyEvent& event) {
     drawMaze();
 }
 
+
 MazeGui::MazeGui(MazeSystem* model) : model(model), window(nullptr) {
     window = new GWindow(model->getLength() * SQUARE_SIZE, model->getWidth() * SQUARE_SIZE);
     window->setExitOnClose(true);
     window->setBackground("brown");
-
    // window->set
     drawMaze();
     window->setKeyListener([this](GEvent event) {
@@ -53,6 +53,7 @@ MazeGui::MazeGui(MazeSystem* model) : model(model), window(nullptr) {
             this->handleKey(event);
        }
     });
+
     //animate();
 }
 

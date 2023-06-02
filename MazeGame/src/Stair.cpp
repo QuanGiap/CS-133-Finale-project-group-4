@@ -16,8 +16,8 @@ Stair::Stair(int x,int y,vector<vector<Path*>>* mazeMap,Stair* next){
 Stair::~Stair(){
     if(this->mazeMap!=nullptr){
         for(int y = 0;y < this->mazeMap->size();y++){
-            for(int x = 0;x < this->mazeMap[y].size();x++){
-                delete (*this->mazeMap)[y][x];
+            for(int x = 0;x < (*this->mazeMap)[y].size();x++){
+                if((*this->mazeMap)[y][x]!=nullptr) delete (*this->mazeMap)[y][x];
             }
         }
         delete this->mazeMap;

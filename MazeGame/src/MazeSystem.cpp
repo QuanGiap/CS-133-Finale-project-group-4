@@ -270,11 +270,12 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
 //        cout<<"Input your command: ";
 //        cin>>input;
 //    }
+    cout<<"Created system"<<endl;
 }
 
 //destructor of MazeSystem
 MazeSystem::~MazeSystem(){
-    //delete every path
+    //delete every stair and path
     for(auto kv : stairMap){
         delete kv.second;
     }

@@ -12,7 +12,6 @@ class MazeGui {
         const int SQUARE_SIZE = 20;
         GWindow* window;
 
-        //MazeGame* model;
         MazeSystem* model;
 
         void drawMaze();
@@ -26,7 +25,7 @@ class MazeGui {
     public:
         //MazeGui(MazeGame* model);
         MazeGui(MazeSystem* model);
-
+        ~MazeGui();
         void update();
 
 
