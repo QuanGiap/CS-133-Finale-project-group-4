@@ -151,6 +151,7 @@ void MazeSystem::createMap(ifstream& input){
             vector<Path*> lineX;
             for(int j = 0;j < lengthX;j++){
                 input>>noskipws>>c;
+                //if it a stair add lineY to class
                 Path* newPath = this->getPath(c,lineY,j,i);
                 lineX.push_back(newPath);
             }
@@ -270,7 +271,6 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
 //        cout<<"Input your command: ";
 //        cin>>input;
 //    }
-    cout<<"Created system"<<endl;
 }
 
 //destructor of MazeSystem
