@@ -248,6 +248,7 @@ Path* MazeSystem::getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y){
 //create a maze base on given txt file.
 MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
     this->foundfinishNode = false;
+    this->curMazeMap = nullptr;
     this->createMap(inputMaze);;
     this->createEvent(inputEvent);
     //create inital connection stair
