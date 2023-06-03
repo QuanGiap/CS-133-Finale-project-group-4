@@ -69,7 +69,6 @@ DEFINES     += SGL_GRAPHICAL_CONSOLE_NO_TOOLBAR=1
 SOURCES         *=  "" \
     src/FinishLine.cpp \
     src/GraphNode.cpp \
-    src/LinkedNode.cpp \
     src/MazeSystem.cpp \
     src/Obstacle.cpp \
     src/Path.cpp \
@@ -79,7 +78,6 @@ SOURCES         *=  "" \
 HEADERS         *=  "" \
     src/FinishLine.h \
     src/GraphNode.h \
-    src/LinkedNode.h \
     src/MazeSystem.h \
     src/Obstacle.h \
     src/Path.h \

@@ -22,26 +22,34 @@ private:
     static constexpr char WALL_SYMBOL = '-';
     static constexpr char ROAD_SYMBOL = '*';
     static constexpr char FINISH_SYMBOL = '$';
+
     //stair map is used to change the link between the stair
     unordered_map<char,Stair*> stairMap;
+
     //the starting node use for finding the short path
     GraphNode* startNode;
+
     //use to check if found finish  node during find the short path
     bool foundfinishNode;
+
     //current position of the player
     int curX;
     int curY;
+
+    //current maze that user standing on
     vector<vector<Path*>>* curMazeMap;
+
     //count how many step have made
     int curStep;
+
     //the number of steps need to trigger the event
     int triggerStep;
+
     //queue is used for breadth first search
     queue<GraphNode*> qGraph;
+
     //queue is used for event stair switch
     queue<vector<vector<char>>> qEventStair;
-//    //a 3D vector maze (height z, width y, length x)
-//    vector<vector<vector<Path*>>> mazeMap;
 
     //each 2d maze map have it own set which position (length x, width y)
     //It is used to record which path program has made
@@ -66,7 +74,7 @@ private:
     //return true if player successfully move to the given position
     bool changePosition(vector<vector<Path*>>* mazeMap,int x,int y,bool isUseStair);
 
-    //save the path position to map
+    //save the path position to shortPathPos map
     void savePath(GraphNode* node);
 
     //create maze map from read text file
@@ -83,19 +91,23 @@ private:
 
     //get path from character, and given position
     Path* getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y);
-public:
 
+public:
     //create a maze base on given txt file.
     MazeSystem(ifstream& inputMaze,ifstream& inputEvent);
+
     //destructor of MazeSystem
     ~MazeSystem();
 
     //get color of the path base on given x, y
     string getColor(int x, int y) const;
+
     //get type of the path base on given x,y
     pathType getType(int x, int y) const;
+
     //get path of user currently on
     Path* getUser();
+
     //get path base on given x,y
     Path* get(int x, int y) const;
 
@@ -107,9 +119,9 @@ public:
     //return -1 if unable to go to the given position
     int checkPath(vector<vector<Path*>>* mazeMap,int x,int y);
 
-    //return map that show shortest map for maze
+    //return map that show shortest map for current maze
     //return vectors of position {x, y}
-    vector<vector<int>>& getMapDirection();
+    vector<vector<int>> getMapDirection();
 
     //return length x of the maze map
     int getLength() const;
@@ -126,11 +138,14 @@ public:
     //return current position of y
     int getCurY() const;
 
-    //return current position of z
+    //return current maze the user currently on
     vector<vector<Path*>>* getCurMaze() const;
 
     //return current step player have make
     int getCurStep() const;
+
+    //return remain steps before trigger the event
+    int stepRemain() const;
 
     //move the player to the left
     //return true if succesfully moved

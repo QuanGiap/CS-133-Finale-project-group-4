@@ -83,14 +83,14 @@ bool MazeSystem::isShortPath(GraphNode* node){
         if(node->isFinishNode){
             savePath(node);
             foundPath = true;
-        }
-
-        while(!node->empty()){
-            if(isShortPath(node->getLastNode())){
-                savePath(node);
-                foundPath = true;
+        }else{
+            while(!node->empty()){
+                if(isShortPath(node->getLastNode())){
+                    savePath(node);
+                    foundPath = true;
+                }
+                node->removeLastNode();
             }
-            node->removeLastNode();
         }
         delete node;
     }
@@ -123,7 +123,7 @@ bool MazeSystem::changePosition(vector<vector<Path*>>* mazeMap,int x,int y,bool 
     return true;
 }
 
-//save the path position to map
+//save the path position to vector
 void MazeSystem::savePath(GraphNode* node){
     int x = node->x;
     int y = node->y;
@@ -134,9 +134,9 @@ void MazeSystem::savePath(GraphNode* node){
     }
 }
 
+//create maze map from read text file
 void MazeSystem::createMap(ifstream& input){
     string str;
-    //skip get start position
     getline(input,str);
     this->curX = stoi(str);
     getline(input,str); 
@@ -228,6 +228,7 @@ Path* MazeSystem::getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y){
         newPath = new FinishLine();
         break;
     default:
+        //if it a stair
         if(isalpha(toupper(c))){
             if(this->stairMap.count(toupper(c))){
                 throw string("Duplicate stair exist");
@@ -235,7 +236,9 @@ Path* MazeSystem::getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y){
                 newPath = new Stair(x,y,mazeMap);
                 this->stairMap[c] = (Stair*) newPath;
             }
-        }else if(isdigit(c)){
+        }
+        //if it is a obstacle
+        else if(isdigit(c)){
             newPath = new Obstacle(c-'0');
         }
         else{
@@ -284,19 +287,22 @@ MazeSystem::~MazeSystem(){
     isShortPath(startNode);
 }
 
-
+//get path base on given x,y
 Path* MazeSystem::get(int x, int y) const{
     return (*curMazeMap)[y][x];
 }
 
+//get path of user currently on
 Path* MazeSystem::getUser() {
     return (*curMazeMap)[curY][curX];
 }
 
+//get type of the path base on given x,y
 pathType MazeSystem::getType(int x, int y) const{
     return (*curMazeMap)[y][x]->getType();
 }
 
+//get color of the path base on given x, y
 string MazeSystem::getColor(int x, int y) const {
     return (*curMazeMap)[y][x]->getColor();
 }
@@ -309,7 +315,7 @@ int MazeSystem::checkPath(vector<vector<Path*>>* mazeMap,int x,int y){
 
 //return map that show shortest map for maze
 //key is the level of maze, value is vector of position {x, y}
-vector<vector<int>>& MazeSystem::getMapDirection(){
+vector<vector<int>> MazeSystem::getMapDirection(){
     return this->shortPathPos;
 }
 
@@ -348,6 +354,11 @@ vector<vector<Path*>>*  MazeSystem::getCurMaze() const{
 //return current step player have make
 int MazeSystem::getCurStep() const{
     return this->curStep;
+}
+
+//return remain step before trigger the event
+int MazeSystem::stepRemain() const{
+    return this->curStep % this->triggerStep;
 }
 
 //move the player to the left
