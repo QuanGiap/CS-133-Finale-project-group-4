@@ -1,13 +1,15 @@
-#ifndef _Maze_Gui
 // This class manages a GUI for a system interconnected Mazes. Users can interact and play the game by
 // using the arrow keys as keyboard inputs to move the player along the current level.
 // To switch between levels, players must be on top of stairs (currently yellow blocks) and
 // hit the shift key.
 
+#ifndef _Maze_Gui
 #define _Maze_Gui
 
 #include "gwindow.h"
 #include "gevent.h"
+#include "glabel.h"
+#include "gbutton.h"
 #include "MazeSystem.h"
 
 using namespace sgl;
@@ -27,9 +29,22 @@ class MazeGui {
 
         // Takes a reference to a key event which is triggered when a key is pressed.
         // Checks if the key pressed is an arrow key or a shift key to move the player
-        // through the maze.
+        // through the maze. Returns true if the player succesfully moved.
+        bool movePlayer(const GKeyEvent& event);
+
+        // Takes a reference to a key event which is triggered when a key
+        // is pressed. Checks if the key pressed is an arrow key or a shift key to move the player
+        // through the maze. Redraws the maze if the player moved.
         void handleKey(const GKeyEvent& event);
 
+        void displayHint();
+
+        bool showPath;
+        bool onCool;
+        int hintSteps;
+
+        GLabel* message;
+        GButton* hint;
 
 
 
@@ -39,11 +54,6 @@ class MazeGui {
         // player and use the shift key to switch between levels when
         // ontop of stairs (yellow blocks currently).
         MazeGui(MazeSystem* model);
-
-        // Not sure if deconstructor is needed since the program ends once the GUI closes
-        //~MazeGui();
-        void update();
-
 };
 
 #endif
