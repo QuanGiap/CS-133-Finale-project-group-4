@@ -11,6 +11,10 @@ bool MazeGui::movePlayer(const GKeyEvent& event) {
     bool moved = false;
     if(model->getUser()->getType() == stair && key == "Shift") {
         moved =  model->useStair();
+        if(moved) {
+            window->setSize(model->getLength() * SQUARE_SIZE,
+                            model->getWidth() * SQUARE_SIZE + 2 * SQUARE_SIZE);
+        }
     } else if(key == "Up") {
         moved = model->moveUp();
     } else if(key == "Down") {
@@ -34,13 +38,16 @@ bool MazeGui::movePlayer(const GKeyEvent& event) {
 void MazeGui::displayHint() {
     // the countdown is zero or less or the cooldown is disabled
     // Turn on the hint and turn off the cooldown
-    drawMaze();
     if(!(onCool && hintSteps > 0)) {
         if(!showPath) {
             hintSteps = 5;
         }
         showPath = true;
         onCool = false;
+
+        model->findShortPath(model->getCurX(), model->getCurY());
+        coords = model->getMapDirection();
+        drawMaze();
 //        vector<vector<int>> coords = model->getMapDirection();
 //        string test = "x: " + to_string(coords[0][0]) + ", y" + to_string(coords[0][1]);
 //        message->setColor("blue");
@@ -78,6 +85,7 @@ void MazeGui::handleKey(const GKeyEvent& event) {
     // redraw the maze only if the player moved
     if(moved) {
         drawMaze();
+
     }
 }
 
@@ -91,7 +99,7 @@ MazeGui::MazeGui(MazeSystem* model) : model(model), showPath(false), onCool(fals
     message = new GLabel();
     hint = new GButton("Hint");
     window = new GWindow(model->getLength() * SQUARE_SIZE,
-                                        model->getWidth() * SQUARE_SIZE + message->getHeight());
+                                        model->getWidth() * SQUARE_SIZE + 2 * SQUARE_SIZE);
     window->setExitOnClose(true);
     window->setBackground("brown");
     window->setRegionAlignment(GWindow::REGION_SOUTH, ALIGN_LEFT);
@@ -126,7 +134,11 @@ MazeGui::MazeGui(MazeSystem* model) : model(model), showPath(false), onCool(fals
 
 // Draws the current level of the maze given by the MazeSystem
 void MazeGui::drawMaze() {
+
     window->clear();
+
+
+
     //Goes through the current maze and draws each class of objects as a unique color.
     for(int x = 0; x < model->getLength(); x++) {
         for(int y = 0; y < model->getWidth(); y++) {
@@ -136,7 +148,7 @@ void MazeGui::drawMaze() {
                 if(model->getCurY() == y && model->getCurX() == x) {
                     string userColor = "pink";
                     if(onCool) {
-                        userColor = "blue";
+                        userColor = "purple";
                     } else if(showPath) {
                         userColor = "green";
                     }
@@ -150,5 +162,12 @@ void MazeGui::drawMaze() {
     }
     // test statement for label
     message->setText(to_string(hintSteps));
+    if(showPath){
+        for (int i = 0; i < coords.size(); i++) {
+                window->setColor("red");
+                window->fillRect(coords[i][0] * SQUARE_SIZE, coords[i][1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+
+        }
+    }
 }
 

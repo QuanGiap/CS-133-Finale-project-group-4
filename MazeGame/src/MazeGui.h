@@ -16,6 +16,8 @@ using namespace sgl;
 
 class MazeGui {
     private:
+
+        vector<vector<int>> coords;
         const int SQUARE_SIZE = 20;
 
         // Stores the window that gets displayed to the user.

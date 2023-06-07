@@ -1,7 +1,11 @@
-3
+20
 A B
 C D
+E F
+G G
 -
-A C
-B D
+A E
+D F
+G B
+C C
 -
