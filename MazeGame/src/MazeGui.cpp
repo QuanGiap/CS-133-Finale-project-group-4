@@ -34,16 +34,24 @@ bool MazeGui::movePlayer(const GKeyEvent& event) {
 void MazeGui::displayHint() {
     // the countdown is zero or less or the cooldown is disabled
     // Turn on the hint and turn off the cooldown
+    drawMaze();
     if(!(onCool && hintSteps > 0)) {
         if(!showPath) {
             hintSteps = 5;
         }
         showPath = true;
         onCool = false;
-
-        // Test statement
-        message->setColor("Green");
-        drawMaze();
+//        vector<vector<int>> coords = model->getMapDirection();
+//        string test = "x: " + to_string(coords[0][0]) + ", y" + to_string(coords[0][1]);
+//        message->setColor("blue");
+//        message->setText(test);
+//        // iterate through the vector of vectors
+//        vector<vector<int>> coords = model->getMapDirection();
+//        for (int i = 0; i < coords.size(); i++) {
+//            message->setColor("blue");
+//            cout << "x: " << coords[i][0] << ", y" << coords[i][1] << endl;
+//            window->fillRect(coords[i][0] * SQUARE_SIZE, coords[i][1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+//        }
     }
 }
 
