@@ -112,12 +112,13 @@ MazeGui::MazeGui(MazeSystem* model) : model(model), showPath(false), onCool(fals
     message->setForeground("gray");
     message->setColor("Red");
     message->setBackground("black");
-    message->setText("Hello World");
+    message->setText("Loading please wait");
     message->setFont("Helvetica-12");
 
     // Draw the initial maze
     drawMaze();
 
+    this->onCool = true;
     // KeyListener activates whenever a key is pressed and calls the handleKey function
     // only if the key was released. Prevents "bouncing" in the key press, that is
     // it ensures the player is moved once when the key is pressed.

@@ -279,11 +279,17 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
 
 //destructor of MazeSystem
 MazeSystem::~MazeSystem(){
-    //delete every stair and path
+    //delete every path
     for(auto kv : stairMap){
-        delete kv.second;
+        vector<vector<Path*>>* maze = kv.second->mazeMap;
+        for(int i = 0;i<maze->size();i++){
+            for(int j = 0;j<(*maze)[i].size();j++){
+                delete (*maze)[i][j];
+            }
+        }
+        delete maze;
     }
-//    delete GraphNode
+    //delete GraphNode
     isShortPath(startNode);
 }
 

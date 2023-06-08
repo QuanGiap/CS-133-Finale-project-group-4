@@ -11,11 +11,10 @@ private:
     int x;
     int y;
     Stair* next;
-    vector<vector<Path*>>* mazeMap;
 public:
+    vector<vector<Path*>>* mazeMap;
     Stair(int x,int y,vector<vector<Path*>>* mazeMap);
     Stair(int x,int y,vector<vector<Path*>>* mazeMap,Stair* next);
-    ~Stair();
     pathType getType() const;
     string getColor() const;
     int getNextX() const;
