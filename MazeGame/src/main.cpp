@@ -33,7 +33,7 @@ ifstream* getInputFile(string type) {
     ifstream* input = new ifstream();
     string filename;
     cout<< "File name to "+type+"? ";
-    bool isFile = false;    
+    bool isFile = false;
     while(!isFile) {
         getline(cin, filename);
         filename = PREFIX + filename;

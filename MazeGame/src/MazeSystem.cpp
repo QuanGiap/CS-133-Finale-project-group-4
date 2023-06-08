@@ -137,10 +137,12 @@ void MazeSystem::savePath(GraphNode* node){
 //create maze map from read text file
 void MazeSystem::createMap(ifstream& input){
     string str;
+    //get start position
     getline(input,str);
     this->curX = stoi(str);
-    getline(input,str); 
+    getline(input,str);
     this->curY = stoi(str);
+    //create maze map
     while(getline(input,str)){
         char c;
         int lengthX = stoi(str);

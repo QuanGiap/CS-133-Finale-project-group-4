@@ -70,18 +70,22 @@ SOURCES         *=  "" \
     src/FinishLine.cpp \
     src/GraphNode.cpp \
     src/MazeSystem.cpp \
+    src/NodeScore.cpp \
     src/Obstacle.cpp \
     src/Path.cpp \
     src/Road.cpp \
+    src/ScoreBoard.cpp \
     src/Stair.cpp \
     src/Wall.cpp
 HEADERS         *=  "" \
     src/FinishLine.h \
     src/GraphNode.h \
     src/MazeSystem.h \
+    src/NodeScore.h \
     src/Obstacle.h \
     src/Path.h \
     src/Road.h \
+    src/ScoreBoard.h \
     src/Stair.h \
     src/Wall.h
 

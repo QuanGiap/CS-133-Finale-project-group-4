@@ -78,7 +78,7 @@ private:
     void savePath(GraphNode* node);
 
     //create maze map from read text file
-    void createMap(ifstream& inputMaze);
+    void createMap(ifstream& input);
 
     //create stair event
     void createEvent(ifstream& inputEvent);
@@ -90,8 +90,7 @@ private:
     void resetFind();
 
     //get path from character, and given position
-    Path* getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y);
-
+    Path* getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y);    
 public:
     //create a maze base on given txt file.
     MazeSystem(ifstream& inputMaze,ifstream& inputEvent);
