@@ -107,6 +107,7 @@ MazeGui::MazeGui(MazeSystem* model) : model(model), showPath(false), onCool(fals
     // Allign the button and label to the bottom of the window
     window->addToRegion(hint, GWindow::Region::REGION_SOUTH);
     window->addToRegion(message, GWindow::Region::REGION_SOUTH);
+    window->setAutoRepaint(false);
 
     message->setForeground("gray");
     message->setColor("Red");
@@ -169,5 +170,6 @@ void MazeGui::drawMaze() {
 
         }
     }
+    window->repaint();
 }
 

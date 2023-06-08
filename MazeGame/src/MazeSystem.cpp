@@ -314,7 +314,7 @@ int MazeSystem::checkPath(vector<vector<Path*>>* mazeMap,int x,int y){
 }
 
 //return map that show shortest map for maze
-//key is the level of maze, value is vector of position {x, y}
+//return vectors of position {x, y}
 vector<vector<int>> MazeSystem::getMapDirection(){
     return this->shortPathPos;
 }
@@ -358,7 +358,8 @@ int MazeSystem::getCurStep() const{
 
 //return remain step before trigger the event
 int MazeSystem::stepRemain() const{
-    return this->curStep % this->triggerStep;
+    if(this->curStep % this->triggerStep == 0) return 0;
+    return this->triggerStep - (this->curStep%(this->triggerStep));
 }
 
 //move the player to the left
