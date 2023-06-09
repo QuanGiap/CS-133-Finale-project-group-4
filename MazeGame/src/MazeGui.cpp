@@ -150,7 +150,7 @@ void MazeGui::drawMaze() {
                 window->setColor(path->getColor());
                 if(path->getType() == obstacle) {
                     window->setFont("Helvetica-10");
-                    window->drawString(to_string(path->getCostStep()), (x+0.5)  * SQUARE_SIZE, (y + 0.5) * SQUARE_SIZE);
+                    window->drawString(to_string(path->getCostStep()), x  * SQUARE_SIZE, (y + 1) * SQUARE_SIZE);
                 } else {
                     window->fillRect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
                 }
