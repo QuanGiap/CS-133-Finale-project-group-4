@@ -4,6 +4,7 @@
 #include <queue>
 #include <fstream>
 #include "MazeSystem.h"
+#include "ScoreBoard.h"
 #include "MazeGui.h"
 #include "console.h"
 using namespace std;
@@ -48,13 +49,42 @@ ifstream* getInputFile(string type) {
     return input;
 }
 
+bool askPlayAgain() {
+    string input;
+    cout << "Would you like to play again? ";
+    cin >> input;
+    cout << endl;
+
+    return (tolower(input[0]) == 'y');
+}
+
+
 int main() {
     printMsg();
-    ifstream* inputMaze = getInputFile("create a maze");
-    ifstream* inputEvent = getInputFile("create stair event");
-    MazeSystem* model = new MazeSystem(*inputMaze,*inputEvent);
-    MazeGui* gui = new MazeGui(model);
-    delete inputMaze;
-    delete inputEvent;
-    return 0;
+        ifstream* inputMaze = getInputFile("create a maze");
+        ifstream* inputEvent = getInputFile("create stair event");
+        ScoreBoard sb;
+        bool playAgain = true;
+        string name= "";
+        while(playAgain){
+            cout<<"What is your nickname?";
+            cin>>name;
+            inputMaze->clear();
+            inputMaze->seekg(0,ios_base::beg);
+            inputEvent->clear();
+            inputEvent->seekg(0,ios_base::beg);
+            MazeSystem* model = new MazeSystem(*inputMaze,*inputEvent);
+            MazeGui* gui = new MazeGui(model, &sb);
+            playAgain = askPlayAgain();
+            if(model->getUser()->getType() == finishPoint){
+                sb.add(name,model->getCurStep());
+            }
+            delete model;
+            delete gui;
+        }
+        inputEvent->close();
+        inputMaze->close();
+        delete inputMaze;
+        delete inputEvent;
+        return 0;
 }

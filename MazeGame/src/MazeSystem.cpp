@@ -254,6 +254,7 @@ Path* MazeSystem::getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y){
 MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
     this->foundfinishNode = false;
     this->curMazeMap = nullptr;
+    this->startNode = nullptr;
     this->createMap(inputMaze);;
     this->createEvent(inputEvent);
     //create inital connection stair
@@ -281,18 +282,24 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
 
 //destructor of MazeSystem
 MazeSystem::~MazeSystem(){
-    //delete every path
-    for(auto kv : stairMap){
-        vector<vector<Path*>>* maze = kv.second->mazeMap;
-        for(int i = 0;i<maze->size();i++){
-            for(int j = 0;j<(*maze)[i].size();j++){
-                delete (*maze)[i][j];
+    set<vector<vector<Path*>>*> checkDelete;
+        for(auto kv : stairMap){
+            vector<vector<Path*>>* maze = kv.second->mazeMap;
+
+            if(!checkDelete.count(maze)){
+                checkDelete.insert(maze);
+//                cout << "New Maze: Size is " << endl;;
+//                cout << maze->size() << " " << (*maze)[0].size() << endl;
+                for(int i = 0;i<maze->size();i++){
+                    for(int j = 0;j<(*maze)[i].size();j++){
+                        delete (*maze)[i][j];
+                    }
+                }
+                delete maze;
             }
         }
-        delete maze;
-    }
-    //delete GraphNode
-    isShortPath(startNode);
+        //deleting GraphNode
+        isShortPath(startNode);
 }
 
 //get path base on given x,y

@@ -12,7 +12,7 @@ bool MazeGui::movePlayer(const GKeyEvent& event) {
     if(model->getUser()->getType() == stair && key == "Shift") {
         moved =  model->useStair();
         if(moved) {
-            window->setSize(model->getLength() * SQUARE_SIZE,
+            window->setSize(model->getLength() * SQUARE_SIZE + 2 * SQUARE_SIZE,
                             model->getWidth() * SQUARE_SIZE + 2 * SQUARE_SIZE);
         }
     } else if(key == "Up") {
@@ -27,7 +27,7 @@ bool MazeGui::movePlayer(const GKeyEvent& event) {
 
     // If the user is on the finish point the game is over.
     if(model->getUser()->getType() == finishPoint) {
-        cout << "Finished Maze" << endl;
+        //cout << "Finished Maze" << endl;
         window->removeKeyListener();
         window->close();
     }
@@ -93,22 +93,32 @@ void MazeGui::handleKey(const GKeyEvent& event) {
 // the user is located at. The users can use the arrow keys to move the
 // player and use the shift key to switch between levels when
 // ontop of stairs (yellow blocks currently).
-MazeGui::MazeGui(MazeSystem* model) : model(model), showPath(false), onCool(false), hintSteps(5) {
+MazeGui::MazeGui(MazeSystem* model, ScoreBoard* scores) : model(model), showPath(false),
+                                               onCool(false), hintSteps(5), scores(scores) {
     //Create window button and label objects. Add some space to the bottom of the window for
     // buttons and label
     message = new GLabel();
     hint = new GButton("Hint");
-    window = new GWindow(model->getLength() * SQUARE_SIZE,
-                                        model->getWidth() * SQUARE_SIZE + 2 * SQUARE_SIZE);
-    window->setExitOnClose(true);
-    window->setBackground("brown");
-    window->setRegionAlignment(GWindow::REGION_SOUTH, ALIGN_LEFT);
+    scoreBoard = new GLabel();
 
+    //Give space to the width and length of the window to display scoreboard and message/hint
+    window = new GWindow(model->getLength() * SQUARE_SIZE + 2 *SQUARE_SIZE,
+                                        model->getWidth() * SQUARE_SIZE + 2 * SQUARE_SIZE);
+    window->setBackground("brown");
+
+    // Allign the window and place the interactors on the window
+    window->setRegionAlignment(GWindow::REGION_SOUTH, ALIGN_LEFT);
     // Allign the button and label to the bottom of the window
     window->addToRegion(hint, GWindow::Region::REGION_SOUTH);
     window->addToRegion(message, GWindow::Region::REGION_SOUTH);
+
+    //Align object that go on the right side of the screen to be at the top
+    window->setRegionAlignment(GWindow::REGION_EAST, ALIGN_TOP);
+    //put the score label on the right of the screen
+    window->addToRegion(scoreBoard, GWindow::Region::REGION_EAST);
     window->setAutoRepaint(false);
 
+    // Change the formatting of the message label positioned at the bottom of the window
     message->setForeground("gray");
     message->setColor("Red");
     message->setBackground("black");
@@ -168,9 +178,19 @@ void MazeGui::drawMaze() {
         for (int i = 0; i < coords.size(); i++) {
                 window->setColor("red");
                 window->fillRect(coords[i][0] * SQUARE_SIZE, coords[i][1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+                window->setColor("green");
+                window->fillRect(model->getCurX() * SQUARE_SIZE, model->getCurY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 
         }
     }
+    //print out the scores to the window
+    scoreBoard->setText(scores->toString());
     window->repaint();
+}
+
+MazeGui::~MazeGui() {
+    delete window;
+    delete message;
+    delete hint;
 }
 

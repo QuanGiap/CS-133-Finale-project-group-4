@@ -11,12 +11,12 @@
 #include "glabel.h"
 #include "gbutton.h"
 #include "MazeSystem.h"
+#include "ScoreBoard.h"
 
 using namespace sgl;
 
 class MazeGui {
     private:
-
         vector<vector<int>> coords;
         const int SQUARE_SIZE = 20;
 
@@ -25,6 +25,8 @@ class MazeGui {
 
         // Stores the system of interconnected mazes.
         MazeSystem* model;
+
+        ScoreBoard* scores;
 
         // Draws the current level of the maze given by the MazeSystem
         void drawMaze();
@@ -47,6 +49,7 @@ class MazeGui {
 
         GLabel* message;
         GButton* hint;
+        GLabel* scoreBoard;
 
 
 
@@ -55,7 +58,8 @@ class MazeGui {
         // the user is located at. The users can use the arrow keys to move the
         // player and use the shift key to switch between levels when
         // ontop of stairs (yellow blocks currently).
-        MazeGui(MazeSystem* model);
+        MazeGui(MazeSystem* model, ScoreBoard* scores);
+        ~MazeGui();
 };
 
 #endif

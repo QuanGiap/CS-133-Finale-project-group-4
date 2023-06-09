@@ -1,8 +1,8 @@
-20
+100000
 A B
 C D
 E F
-G G
+G E
 -
 A E
 D F
