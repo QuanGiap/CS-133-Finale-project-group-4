@@ -1,10 +1,11 @@
-
 #ifndef SCOREBOARD_H
 #define SCOREBOARD_H
 #include <iostream>
 #include "NodeScore.h"
 using namespace std;
 
+/*
+*/
 
 class ScoreBoard
 {

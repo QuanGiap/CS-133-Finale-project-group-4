@@ -1,5 +1,10 @@
 #include "MazeSystem.h"
 using namespace std;
+/*
+ * Maze system will take take care of user move, create maze,
+ * create stair link event, and finding the short path for user
+*/
+
 //return the step cost when go to the given position
 //if GraphNode is nullptr mean program not finding that short path
 //return -1 if unable to go to the given position

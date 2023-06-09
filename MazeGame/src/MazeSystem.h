@@ -16,6 +16,11 @@
 #include <fstream>
 using namespace std;
 
+/*
+ * Maze system will take take care of user move, create maze,
+ * create stair link event, and finding the short path for user
+*/
+
 class MazeSystem{
 private:
     //const symbol char to create maze

@@ -11,9 +11,6 @@ bool MazeGui::movePlayer(const GKeyEvent& event) {
     bool moved = false;
     if(model->getUser()->getType() == stair && key == "Shift") {
         moved =  model->useStair();
-
-
-
         if(moved) {
             //Disable path and enable the cooldown
             showPath = false;
@@ -82,7 +79,6 @@ void MazeGui::handleKey(const GKeyEvent& event) {
     // redraw the maze only if the player moved
     if(moved) {
         drawMaze();
-
     }
 }
 
@@ -143,31 +139,18 @@ MazeGui::MazeGui(MazeSystem* model, ScoreBoard* scores) : model(model), showPath
 
 // Draws the current level of the maze given by the MazeSystem
 void MazeGui::drawMaze() {
-
     window->clear();
-
-
 
     //Goes through the current maze and draws each class of objects as a unique color.
     for(int x = 0; x < model->getLength(); x++) {
         for(int y = 0; y < model->getWidth(); y++) {
             Path* path = model->get(x,y);
             if(path != nullptr) {
-                // Prints a color to denote the user or prints the color given by the object on this coordinate in the maze.
-                if(model->getCurY() == y && model->getCurX() == x) {
-                    string userColor = "pink";
-                    if(onCool) {
-                        userColor = "purple";
-                    } else if(showPath) {
-                        userColor = "green";
-                    }
-                    window->setColor(userColor);
-                } else{
-                    window->setColor(path->getColor());
-                }
+                //prints the color given by the object on this coordinate in the maze.
+                window->setColor(path->getColor());
                 if(path->getType() == obstacle) {
                     window->setFont("Helvetica-10");
-                    window->drawString(to_string(path->getCostStep()), x  * SQUARE_SIZE, (y + 1) * SQUARE_SIZE);
+                    window->drawString(to_string(path->getCostStep()), (x+0.5)  * SQUARE_SIZE, (y + 0.5) * SQUARE_SIZE);
                 } else {
                     window->fillRect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
                 }
@@ -175,22 +158,39 @@ void MazeGui::drawMaze() {
             }
         }
     }
-    // test statement for label
-    string toMessage = "Current Steps: ";
-    toMessage += to_string(model->getCurStep());
-    toMessage += " | Hint countdown: ";
-    toMessage += to_string(hintSteps);
 
+    // message statement for label
+    string toMessage = "Current Steps: " + to_string(model->getCurStep());
+    toMessage += " | Hint countdown: " + to_string(hintSteps)+"\n";
+    int remainStep = model->stepRemain();
+    if(remainStep == 0) {
+        toMessage += "Link between maze have been changed";
+    }else{
+        toMessage += "Maze will be changed in: " + to_string(remainStep);
+    }
     message->setText(toMessage);
-    if(showPath){
-        for (int i = 0; i < coords.size(); i++) {
-                window->setColor("red");
-                window->fillRect(coords[i][0] * SQUARE_SIZE, coords[i][1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-                window->setColor("green");
-                window->fillRect(model->getCurX() * SQUARE_SIZE, model->getCurY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 
+    //draw out the direction the show shortest path
+    if(showPath){
+        window->setColor("red");
+        for (int i = 0; i < coords.size(); i++) {
+            int x = coords[i][0];
+            int y = coords[i][1];
+            if(model->getType(x,y)!=stair)
+                window->fillRect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
         }
     }
+
+    //draw user current
+    string userColor = "pink";
+    if(onCool) {
+        userColor = "purple";
+    } else if(showPath) {
+        userColor = "green";
+    }
+    window->setColor(userColor);
+    window->fillRect(model->getCurX() * SQUARE_SIZE, model->getCurY() * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+
     //print out the scores to the window
     scoreBoard->setColor("white");
     scoreBoard->setText(scores->toString());

@@ -3,8 +3,9 @@
 #define NODESCORE_H
 #include <iostream>
 using namespace std;
-
-
+/*
+ * A node linked present the user name and score
+*/
 
 class NodeScore
 {

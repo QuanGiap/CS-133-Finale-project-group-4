@@ -4,6 +4,9 @@
 
 #include "Path.h"
 #include <vector>
+/*
+ * The stair of the path which user can move to the next level of the maze
+*/
 
 class Stair:public Path{
 private:

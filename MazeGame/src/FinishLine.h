@@ -3,7 +3,9 @@
 #define FINISHLINE_H
 
 #include "Path.h"
-
+/*
+ * Finish line of the path
+*/
 
 class FinishLine:public Path{
     const string DEFAULT_FINISH_LINE_COLOR = "blue";

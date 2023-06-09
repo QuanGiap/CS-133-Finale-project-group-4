@@ -1,5 +1,8 @@
-
 #include "Obstacle.h"
+
+/*
+ * obstacle of the path which take more step than normal one
+*/
 
 Obstacle::Obstacle(int costStep){
     this->costStep = costStep;

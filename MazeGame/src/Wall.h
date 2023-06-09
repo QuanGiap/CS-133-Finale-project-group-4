@@ -3,7 +3,9 @@
 #define WALL_H
 
 #include "Path.h"
-
+/*
+ * The wall of the path which user can't move
+ */
 class Wall:public Path{
     const string DEFAULT_WALL_COLOR = "black";
 public:

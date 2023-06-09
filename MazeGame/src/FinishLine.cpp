@@ -1,6 +1,10 @@
 
 #include "FinishLine.h"
 
+/*
+ * Finish line of the path
+*/
+
 FinishLine::FinishLine(){}
 
 pathType FinishLine::getType() const{

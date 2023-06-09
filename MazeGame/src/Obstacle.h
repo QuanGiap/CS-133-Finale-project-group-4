@@ -3,7 +3,9 @@
 #define OBSTACLE_H
 
 #include "Path.h"
-
+/*
+ * obstacle of the path which take more step than normal one
+*/
 
 class Obstacle:public Path{
 private:

@@ -1,6 +1,11 @@
 #include "GraphNode.h"
 #include <iostream>
 using namespace std;
+
+/*
+ * GraphNode is used for finding the short path in the maze
+*/
+
 GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap){
     this->x = x;
     this->y = y;
@@ -22,6 +27,8 @@ GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,vector<GraphNode
     this->isFinishNode = false;
     this->vGraph = vGraph;
 }
+
+//check if this node is waiting. the waitTurn is subtract by 1 every time is called
 bool GraphNode::isWait(){
     if(this->waitTurn > 0){
         this->waitTurn--;
@@ -29,6 +36,7 @@ bool GraphNode::isWait(){
     return this->waitTurn != 0;
 }
 
+//check if there is any neightbour node
 bool GraphNode::empty(){
     return this->vGraph.size() == 0;
 }
