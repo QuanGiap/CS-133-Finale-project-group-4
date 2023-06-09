@@ -11,7 +11,15 @@ bool MazeGui::movePlayer(const GKeyEvent& event) {
     bool moved = false;
     if(model->getUser()->getType() == stair && key == "Shift") {
         moved =  model->useStair();
+
+
+
         if(moved) {
+            //Disable path and enable the cooldown
+            showPath = false;
+            onCool = true;
+            hintSteps = 5;
+
             window->setSize(model->getLength() * SQUARE_SIZE + 2 * SQUARE_SIZE,
                             model->getWidth() * SQUARE_SIZE + 2 * SQUARE_SIZE);
         }
