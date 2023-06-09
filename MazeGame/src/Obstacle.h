@@ -7,7 +7,7 @@
 
 class Obstacle:public Path{
 private:
-    string DEFAULT_OBSTACLE_COLOR = "white";
+    string DEFAULT_OBSTACLE_COLOR = "black";
     int costStep;
 public:
     Obstacle(int costStep);

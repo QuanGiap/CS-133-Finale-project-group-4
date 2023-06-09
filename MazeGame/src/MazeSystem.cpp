@@ -260,24 +260,6 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
     //create inital connection stair
     this->triggerEvent();
     this->curStep = 0;
-//    //check system maze moving command
-//    string input= "";
-//    cout<<"Input your command: ";
-//    cin>>input;
-//    while(input!="exit"){
-//        if(input=="a") this->moveLeft();
-//        else if(input=="d") this->moveRight();
-//        else if(input=="w") this->moveUp();
-//        else if(input=="s") this->moveDown();
-//        else if(input=="e") this->useStair();
-//        else if(input=="f") {
-//            int smallest_step = this->findShortPath(curX,curY);
-//            cout<<"It should take "<<smallest_step<<" steps"<<endl;
-//        }
-//        cout<<"Current pos: "<<this->curX<<" "<<this->curY<<endl;
-//        cout<<"Input your command: ";
-//        cin>>input;
-//    }
 }
 
 //destructor of MazeSystem
@@ -288,8 +270,6 @@ MazeSystem::~MazeSystem(){
 
             if(!checkDelete.count(maze)){
                 checkDelete.insert(maze);
-//                cout << "New Maze: Size is " << endl;;
-//                cout << maze->size() << " " << (*maze)[0].size() << endl;
                 for(int i = 0;i<maze->size();i++){
                     for(int j = 0;j<(*maze)[i].size();j++){
                         delete (*maze)[i][j];

@@ -56,17 +56,6 @@ void MazeGui::displayHint() {
         model->findShortPath(model->getCurX(), model->getCurY());
         coords = model->getMapDirection();
         drawMaze();
-//        vector<vector<int>> coords = model->getMapDirection();
-//        string test = "x: " + to_string(coords[0][0]) + ", y" + to_string(coords[0][1]);
-//        message->setColor("blue");
-//        message->setText(test);
-//        // iterate through the vector of vectors
-//        vector<vector<int>> coords = model->getMapDirection();
-//        for (int i = 0; i < coords.size(); i++) {
-//            message->setColor("blue");
-//            cout << "x: " << coords[i][0] << ", y" << coords[i][1] << endl;
-//            window->fillRect(coords[i][0] * SQUARE_SIZE, coords[i][1] * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-//        }
     }
 }
 
@@ -102,7 +91,7 @@ void MazeGui::handleKey(const GKeyEvent& event) {
 // player and use the shift key to switch between levels when
 // ontop of stairs (yellow blocks currently).
 MazeGui::MazeGui(MazeSystem* model, ScoreBoard* scores) : model(model), showPath(false),
-                                               onCool(false), hintSteps(5), scores(scores) {
+                                               onCool(false), hintSteps(7), scores(scores) {
     //Create window button and label objects. Add some space to the bottom of the window for
     // buttons and label
     message = new GLabel();
@@ -112,7 +101,7 @@ MazeGui::MazeGui(MazeSystem* model, ScoreBoard* scores) : model(model), showPath
     //Give space to the width and length of the window to display scoreboard and message/hint
     window = new GWindow(model->getLength() * SQUARE_SIZE + 2 *SQUARE_SIZE,
                                         model->getWidth() * SQUARE_SIZE + 2 * SQUARE_SIZE);
-    window->setBackground("brown");
+    window->setBackground("gray");
 
     // Allign the window and place the interactors on the window
     window->setRegionAlignment(GWindow::REGION_SOUTH, ALIGN_LEFT);
@@ -129,7 +118,7 @@ MazeGui::MazeGui(MazeSystem* model, ScoreBoard* scores) : model(model), showPath
     // Change the formatting of the message label positioned at the bottom of the window
     message->setForeground("gray");
     message->setColor("Red");
-    message->setBackground("black");
+    //message->setBackground("black");
     message->setText("Loading please wait");
     message->setFont("Helvetica-12");
 
@@ -173,15 +162,26 @@ void MazeGui::drawMaze() {
                         userColor = "green";
                     }
                     window->setColor(userColor);
-                } else {
+                } else{
                     window->setColor(path->getColor());
                 }
-                window->fillRect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+                if(path->getType() == obstacle) {
+                    window->setFont("Helvetica-10");
+                    window->drawString(to_string(path->getCostStep()), x  * SQUARE_SIZE, (y + 1) * SQUARE_SIZE);
+                } else {
+                    window->fillRect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+                }
+
             }
         }
     }
     // test statement for label
-    message->setText(to_string(hintSteps));
+    string toMessage = "Current Steps: ";
+    toMessage += to_string(model->getCurStep());
+    toMessage += " | Hint countdown: ";
+    toMessage += to_string(hintSteps);
+
+    message->setText(toMessage);
     if(showPath){
         for (int i = 0; i < coords.size(); i++) {
                 window->setColor("red");
@@ -192,6 +192,7 @@ void MazeGui::drawMaze() {
         }
     }
     //print out the scores to the window
+    scoreBoard->setColor("white");
     scoreBoard->setText(scores->toString());
     window->repaint();
 }
