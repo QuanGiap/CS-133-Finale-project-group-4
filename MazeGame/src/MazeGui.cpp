@@ -176,7 +176,8 @@ void MazeGui::drawMaze() {
         for (int i = 0; i < coords.size(); i++) {
             int x = coords[i][0];
             int y = coords[i][1];
-            if(model->getType(x,y)!=stair)
+            pathType curPathType = model->getType(x,y);
+            if(curPathType!=stair && curPathType != finishPoint)
                 window->fillRect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
         }
     }
