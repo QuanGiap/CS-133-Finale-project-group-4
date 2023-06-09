@@ -1,5 +1,8 @@
-
 #include "ScoreBoard.h"
+/*
+ * A board that can shows which user name have the least score
+ * It is rank from the smallest to the biggest score
+*/
 
 ScoreBoard::ScoreBoard(){
     this->header = nullptr;
@@ -13,6 +16,7 @@ ScoreBoard::~ScoreBoard(){
     }
 }
 
+//add node to score board and sort the node
 void ScoreBoard::add(NodeScore* node){
     if(this->header==nullptr){
         this->header = node;
@@ -33,11 +37,14 @@ void ScoreBoard::add(NodeScore* node){
     }
 }
 
+//create node from name and score,
+//add to score board and sort the node
 void ScoreBoard::add(string name,int score){
     NodeScore* node = new NodeScore(name,score);
     this->add(node);
 }
 
+//return string that show rank of each user
 string ScoreBoard::toString(){
     string result= "";
     int rank = 1;

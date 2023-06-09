@@ -3,6 +3,10 @@
 #define ROAD_H
 #include "Path.h"
 
+/*
+ * Road path where user can walk on
+*/
+
 class Road:public Path{
     const string DEFAULT_ROAD_COLOR = "white";
 public:
