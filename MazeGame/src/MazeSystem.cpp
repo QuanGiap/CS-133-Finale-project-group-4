@@ -1,9 +1,15 @@
-#include "MazeSystem.h"
-using namespace std;
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
+
 /*
  * Maze system will take take care of user move, create maze,
  * create stair link event, and finding the short path for user
 */
+
+#include "MazeSystem.h"
+using namespace std;
+
 
 //return the step cost when go to the given position
 //if GraphNode is nullptr mean program not finding that short path
@@ -49,6 +55,7 @@ int MazeSystem::findShortPath(int sX,int sY){
     //setting up breadth first search
     startNode = new GraphNode(sX,sY,this->curMazeMap,stepCheck);
     this->checkPath(this->curMazeMap,sX,sY,startNode);
+    //start breadth first search
     while(!this->qGraph.empty()&&!this->foundfinishNode){
         int size = this->qGraph.size();
         for(int i = 0; i < size;i++){
@@ -57,6 +64,7 @@ int MazeSystem::findShortPath(int sX,int sY){
             vector<vector<Path*>>* mazeMap = curNode->mazeMap;
             int x = curNode->x;
             int y = curNode->y;
+            //if the cur graph node is wait then don't spread yet 
             if(curNode->isWait()){
                 this->qGraph.push(curNode);
             }else{
@@ -80,7 +88,7 @@ int MazeSystem::findShortPath(int sX,int sY){
     return currentStep;
 }
 
-//Use deep first search to see if the path given is the shortest path
+//Use deep first search to see if the GraphNode given is the path to finish point
 //delete node after finish checking
 bool MazeSystem::isShortPath(GraphNode* node){
     bool foundPath = false;
@@ -132,6 +140,7 @@ bool MazeSystem::changePosition(vector<vector<Path*>>* mazeMap,int x,int y,bool 
 void MazeSystem::savePath(GraphNode* node){
     int x = node->x;
     int y = node->y;
+    //check if the node is as the same maze with user
     vector<vector<Path*>>* mazeMap = node->mazeMap;
 //    cout<<x<<" "<<y<<endl;
     if(mazeMap == this->curMazeMap){
@@ -213,6 +222,7 @@ void MazeSystem::triggerEvent(){
     }
 }
 
+//reset first before find short path
 void MazeSystem::resetFind(){
     this->foundfinishNode = false;
     this->recordMap.clear();
@@ -222,6 +232,7 @@ void MazeSystem::resetFind(){
     }
 }
 
+//get new path from character and given position
 Path* MazeSystem::getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y){
     Path* newPath = nullptr;
     switch (c)    {
@@ -255,6 +266,7 @@ Path* MazeSystem::getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y){
     }
     return newPath;
 }
+
 //create a maze base on given txt file.
 MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
     this->foundfinishNode = false;
@@ -270,21 +282,21 @@ MazeSystem::MazeSystem(ifstream& inputMaze,ifstream& inputEvent){
 //destructor of MazeSystem
 MazeSystem::~MazeSystem(){
     set<vector<vector<Path*>>*> checkDelete;
-        for(auto kv : stairMap){
-            vector<vector<Path*>>* maze = kv.second->mazeMap;
-
-            if(!checkDelete.count(maze)){
-                checkDelete.insert(maze);
-                for(int i = 0;i<maze->size();i++){
-                    for(int j = 0;j<(*maze)[i].size();j++){
-                        delete (*maze)[i][j];
-                    }
+    for(auto kv : stairMap){
+        vector<vector<Path*>>* maze = kv.second->mazeMap;
+        //if the maze map is not deleted
+        if(!checkDelete.count(maze)){
+            checkDelete.insert(maze);
+            for(int i = 0;i<maze->size();i++){
+                for(int j = 0;j<(*maze)[i].size();j++){
+                    delete (*maze)[i][j];
                 }
-                delete maze;
             }
+            delete maze;
         }
-        //deleting GraphNode
-        isShortPath(startNode);
+    }
+    //deleting GraphNode
+    isShortPath(startNode);
 }
 
 //get path base on given x,y

@@ -1,3 +1,6 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
 
 #ifndef ROAD_H
 #define ROAD_H
@@ -8,6 +11,7 @@
 */
 
 class Road:public Path{
+private:
     const string DEFAULT_ROAD_COLOR = "white";
 public:
     // constructs a road object

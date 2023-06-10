@@ -1,9 +1,11 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
+
+// This file implements the functions given in FinishLine.h
+
 
 #include "FinishLine.h"
-
-/*
- * Finish line of the path
-*/
 
 FinishLine::FinishLine(){}
 

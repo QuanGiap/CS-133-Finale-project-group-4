@@ -1,3 +1,7 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
+
 #include "ScoreBoard.h"
 /*
  * A board that can shows which user name have the least score
@@ -16,7 +20,8 @@ ScoreBoard::~ScoreBoard(){
     }
 }
 
-//add node to score board and sort the node
+//add node to score board 
+//sort the node from the smallest to the biggest score
 void ScoreBoard::add(NodeScore* node){
     if(this->header==nullptr){
         this->header = node;
@@ -38,7 +43,8 @@ void ScoreBoard::add(NodeScore* node){
 }
 
 //create node from name and score,
-//add to score board and sort the node
+//add to score board
+//sort the node from the smallest to the biggest score
 void ScoreBoard::add(string name,int score){
     NodeScore* node = new NodeScore(name,score);
     this->add(node);

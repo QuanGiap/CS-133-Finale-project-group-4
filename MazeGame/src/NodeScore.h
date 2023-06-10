@@ -1,3 +1,6 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
 
 #ifndef NODESCORE_H
 #define NODESCORE_H

@@ -1,13 +1,17 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
+
+// GraphNode is used for finding the short path in the maze
 
 #ifndef GRAPHNODE_H
 #define GRAPHNODE_H
+
 #include <vector>
 #include "Path.h"
 using namespace std;
 
-/*
- * GraphNode is used for finding the short path in the maze
-*/
+
 
 class GraphNode{
 private:

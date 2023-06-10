@@ -1,3 +1,6 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
 
 #ifndef PATH_H
 #define PATH_H
@@ -19,18 +22,17 @@ enum pathType{
 
 //a parent class to set up different kind of paths
 class Path{
-    const string DEFAULT_PATH_COLOR = "white";
 private:
-  //  bool user;
+    const string DEFAULT_PATH_COLOR = "white";
 public:
     //constructor of path
     Path();
     //destructor of path
     virtual ~Path() = default;
     //return enum pathType (return path)
-    virtual pathType getType() const = 0;
+    virtual pathType getType() const;
     //return string color for path which is use for GUI
-    virtual string getColor() const = 0;
+    virtual string getColor() const;
     //return cost step to get this path
     virtual int getCostStep() const;
 };

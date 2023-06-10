@@ -1,10 +1,12 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
+
+// This file implements the functions given in GraphNode.h
+
 #include "GraphNode.h"
 #include <iostream>
 using namespace std;
-
-/*
- * GraphNode is used for finding the short path in the maze
-*/
 
 GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap){
     this->x = x;
@@ -20,7 +22,7 @@ GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,int waitTurn){
     this->waitTurn = waitTurn;
     this->isFinishNode = false;
 }
-GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,vector<GraphNode*> vGraph){
+GraphNode::GraphNode(int x,int y,vector<vector<Path*>>* mazeMap,vector<GraphNode*> vGraph) {
     this->x = x;
     this->y = y;
     this->mazeMap = mazeMap;

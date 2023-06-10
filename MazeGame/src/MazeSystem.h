@@ -1,3 +1,6 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
 
 #ifndef MAZESYSTEM_H
 #define MAZESYSTEM_H
@@ -34,18 +37,18 @@ private:
     //the starting node use for finding the short path
     GraphNode* startNode;
 
-    //use to check if found finish  node during find the short path
+    //use to check if found finish node during find the short path
     bool foundfinishNode;
 
     //current position of the player
     int curX;
     int curY;
 
-    //current maze that user standing on
-    vector<vector<Path*>>* curMazeMap;
-
     //count how many step have made
     int curStep;
+
+    //current maze that user standing on
+    vector<vector<Path*>>* curMazeMap;
 
     //the number of steps need to trigger the event
     int triggerStep;
@@ -56,7 +59,7 @@ private:
     //queue is used for event stair switch
     queue<vector<vector<char>>> qEventStair;
 
-    //each 2d maze map have it own set which position (length x, width y)
+    //each 2d maze map have it own Set which is vector position (length x, width y)
     //It is used to record which path program has made
     unordered_map<vector<vector<Path*>>*,set<vector<int>>> recordMap;
 
@@ -68,7 +71,7 @@ private:
     //return -1 if unable to go to the given position
     int checkPath(vector<vector<Path*>>* mazeMap,int x,int y,GraphNode* prev);
 
-    //Use deep first search to see if the path given is the shortest path
+    //Use deep first search to see if the GraphNode given is the path to finish point
     //delete node after finish checking
     bool isShortPath(GraphNode* node);
 
@@ -91,10 +94,10 @@ private:
     //changing the link between the stair
     void triggerEvent();
 
-    //reset find short path
+    //reset first before find short path
     void resetFind();
 
-    //get path from character, and given position
+    //get new path from character and given position
     Path* getPath(char c,vector<vector<Path*>>* mazeMap, int x,int y);    
 public:
     //create a maze base on given txt file.

@@ -1,15 +1,19 @@
+// Justin Tun, Quan Giap, Giovanni Dominguez
+// CS 133, Spring 2023
+// Group-4 Finale Project: MazeGame
 
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
 #include "Path.h"
 /*
- * obstacle of the path which take more step than normal one
+ * Obstacle in the maze which takes more steps to move past
+ * 
 */
 
 class Obstacle:public Path{
 private:
-    string DEFAULT_OBSTACLE_COLOR = "black";
+    const string DEFAULT_OBSTACLE_COLOR = "black";
     int costStep;
 public:
     Obstacle(int costStep);
