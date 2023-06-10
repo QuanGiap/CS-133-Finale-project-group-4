@@ -2,8 +2,8 @@
 // CS 133, Spring 2023
 // Group-4 Finale Project: MazeGame
 
-// This class manages a GUI for a system interconnected Mazes. Users can interact and play the game by
-// using the arrow keys as keyboard inputs to move the player along the current level.
+// This class manages a GUI for a system interconnected Mazes. Users can interact and play
+// the game by using the arrow keys as keyboard inputs to move the player along the current level.
 // To switch between levels, players must be on top of stairs (currently yellow blocks) and
 // hit the shift key.
 
